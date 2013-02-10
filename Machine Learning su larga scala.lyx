@@ -1,0 +1,587 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass book
+\use_default_options true
+\master Appunti Machine Learning.lyx
+\begin_modules
+theorems-ams
+eqs-within-sections
+figs-within-sections
+\end_modules
+\maintain_unincluded_children false
+\language italian
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Chapter
+Machine Learning su larga scala
+\end_layout
+
+\begin_layout Section
+Scelta dell'algoritmo
+\end_layout
+
+\begin_layout Standard
+Per scegliere quale algoritmo usare in quale condizione non esiste un criterio
+ unico.
+\end_layout
+
+\begin_layout Standard
+Delle linee guida da seguire però possono essere quelle di utilizzare la
+ regressione lineare o le SVM con kernel lineare nel caso di grande numero
+ di feature relativamente ai numeri di esempi, oppure quando il numero di
+ feature è piccolo ma il numero di esempi è molto grande (
+\begin_inset Formula $50000+$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+Le SVM con kernel gaussiano quando il numero di feature è piccolo e il numero
+ di esempi medio (
+\begin_inset Formula $10-10000$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+Le reti neurali si comportano bene in tutte le condizioni (con architetture
+ adeguate) ma solitamente sono più lente nell''apprendimento.
+\end_layout
+
+\begin_layout Section
+Stochastic Gradient Descent
+\end_layout
+
+\begin_layout Standard
+Lo Stochastic Gradient Descent è un algoritmo di ottimizzazione che permette
+ di lavorare con dataset di grandi dimensioni.
+ Il Gradient Descent classico viene chiamato, in contrasto, Batch Gradient
+ Descent.
+\end_layout
+
+\begin_layout Standard
+A differenza del Batch Gradient Descent, nello Stochastic Gradeint Descent,
+ ad ogni passo non si aggiornano i parametri 
+\begin_inset Formula $\theta$
+\end_inset
+
+ rispetto alla somma della derivata della funzione costo rispetto a tutti
+ gli esempi, ma solo uno alla volta.
+ Ciò permette, anche in presenza di grandi dataset, di effettuare picoli
+ aggiornamenti dei parametri molto più veloci che permettono solitamente
+ di raggiungere la convergenza molto prima.
+\end_layout
+
+\begin_layout Standard
+Scriviamo la funzione costo della regressione lineare come esempio, in una
+ nuova formulazione utile per lo Stochastic Gradient Descent:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+cost(\theta,(x^{(i)},y^{(i)}))=\frac{1}{2}\left(h_{\theta}(x^{(i)})-y^{(i)}\right)^{2}
+\]
+
+\end_inset
+
+x
+\begin_inset Formula 
+\[
+J(\theta)=\frac{1}{m}\sum_{i=1}^{m}cost(\theta,(x^{(i)},y^{(i)}))
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\theta_{k}:=\theta_{k}-\alpha\frac{\partial}{\partial\theta_{k}}cost(\theta,(x^{(i)},y^{(i)}))
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Calcolando le derivate parziali, si ottengono le funzioni per aggiornare
+ i parametri (non è presente la sommatoria poiché si utilizza la derivata
+ della funzione 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\lang english
+
+\begin_inset Formula $cost(\theta,(x^{(i)},y^{(i)}))$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+\lang italian
+):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\theta_{k}:=\theta_{k}-\alpha\frac{1}{m}\left(h_{\theta}(x^{(i)})-y^{(i)}\right)\cdot x_{k}^{(i)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+L'intero processo è mostrato nell'Algoritmo 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Stochastic-Gradient-Descent"
+
+\end_inset
+
+.
+ Il numero di ripetizioni può variare a seconda del numero di esempi di
+ training: per numeri molto alti può bastare anche una sola ripetizione,
+ per numeri inferiori si arriva tendenzialmente non oltre le 10 ripetizioni.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Stochastic Gradient Descent
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Stochastic-Gradient-Descent"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\noun on
+Repeat
+\noun default
+ {
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space \quad{}
+\end_inset
+
+
+\noun on
+for
+\noun default
+ 
+\begin_inset Formula $i:=1,\ldots,m$
+\end_inset
+
+ {
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space \quad{}
+\end_inset
+
+
+\begin_inset space \quad{}
+\end_inset
+
+
+\noun on
+for
+\noun default
+ 
+\begin_inset Formula $j:=0,\ldots,n$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space \quad{}
+\end_inset
+
+
+\begin_inset space \quad{}
+\end_inset
+
+
+\begin_inset space \quad{}
+\end_inset
+
+
+\begin_inset Formula $\theta_{j}:=\theta_{j}-\alpha\left(h_{\theta}(x^{(i)})-y^{(i)}\right)\cdot x_{j}^{(i)}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space \quad{}
+\end_inset
+
+
+\begin_inset space \quad{}
+\end_inset
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space \quad{}
+\end_inset
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Mini-batch Gradient Descent
+\end_layout
+
+\begin_layout Standard
+Il Mini-batch Gradient Descent è una via di mezzo tra il Batch Gradient
+ Descent e lo Stochastic Gradient Descent.
+ Si basa su un parametro 
+\begin_inset Formula $b$
+\end_inset
+
+ che denota il numero di esempi da utilizzare ad ogni iterazione.
+ Impostanto 
+\begin_inset Formula $b=m$
+\end_inset
+
+ l'algoritmo è equivalente al Batch Gradient Descent, mentre impostando
+ 
+\begin_inset Formula $b=1$
+\end_inset
+
+ l'algoritmo è equivalente allo Stochastic Gradient Descent.
+ Il vantaggio di questo algoritmo è velocizzare ulteriormente il tempo di
+ apprendimento se si implementa una buona vettorializzazione.
+\end_layout
+
+\begin_layout Standard
+L'intero processo è mostrato nell'Algoritmo 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:9.2 Mini-batch-Gradient-Descent"
+
+\end_inset
+
+.
+ Il numero di ripetizioni può variare a seconda del numero di esempi di
+ training: per numeri molto alti può bastare anche una sola ripetizione,
+ per numeri inferiori si arriva tendenzialmente non oltre le 10 ripetizioni.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Mini-batchGradient Descent
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:9.2 Mini-batch-Gradient-Descent"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\noun on
+Repeat
+\noun default
+ {
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space \quad{}
+\end_inset
+
+
+\noun on
+for
+\noun default
+ 
+\begin_inset Formula $i:=1,\ldots,m$
+\end_inset
+
+ (increase size = 
+\begin_inset Formula $b$
+\end_inset
+
+) {
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space \quad{}
+\end_inset
+
+
+\begin_inset space \quad{}
+\end_inset
+
+
+\noun on
+for
+\noun default
+ 
+\begin_inset Formula $j:=0,\ldots,n$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space \quad{}
+\end_inset
+
+
+\begin_inset space \quad{}
+\end_inset
+
+
+\begin_inset space \quad{}
+\end_inset
+
+
+\begin_inset Formula $\theta_{j}:=\theta_{j}-\alpha\frac{1}{b}\sum_{k=i}^{i+b-1}\left(h_{\theta}(x^{(k)})-y^{(k)}\right)\cdot x_{j}^{(k)}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space \quad{}
+\end_inset
+
+
+\begin_inset space \quad{}
+\end_inset
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space \quad{}
+\end_inset
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Convergenza
+\end_layout
+
+\begin_layout Standard
+Sia lo Stochastic Gradient Descent che il Batch Gradient Descent non hanno
+ una convergenza garantita ma continuano a muoversi nella zona di un minimo
+ locale.
+ Calcolare ad ogni passo 
+\begin_inset Formula $J(\theta)$
+\end_inset
+
+ per vederne l'andamento non è una buona idea perchè per calcolarla bisogna
+ farlo su tutti gli esempi di training.
+ Più utile risulta essere calcolare 
+\begin_inset Formula $cost(\theta,(x^{(i)},y^{(i)}))$
+\end_inset
+
+ e visualizzare ogni 
+\begin_inset Formula $t$
+\end_inset
+
+ iterazioni la media di questa funzione, dove 
+\begin_inset Formula $t=1000$
+\end_inset
+
+ o 
+\begin_inset Formula $t=5000$
+\end_inset
+
+ o altri valori a seconda della capacità di visualizzare l'andamento desiderata.
+\end_layout
+
+\begin_layout Standard
+Per facilitare la convergenza ed evitare di far muovere di molto i valori
+ di 
+\begin_inset Formula $\theta$
+\end_inset
+
+ attorno al minimo trovato si può utilizzare un valore di 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ decrescente, come ad esempio:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\alpha=\frac{cons1}{iterationNumber+const2}
+\]
+
+\end_inset
+
+dove 
+\begin_inset Formula $const1$
+\end_inset
+
+ e 
+\begin_inset Formula $const2$
+\end_inset
+
+ sono dei valori da decidere in base al problema, di base possono essere
+ rispettivamente 1 e 0.
+\end_layout
+
+\begin_layout Section
+Online Learning
+\end_layout
+
+\begin_layout Standard
+Per Online Learning si intende l'abilità di un sistema di aggiornare i propri
+ parametri appresi ogni volta che un nuovo esempio si rende disponibile.
+\end_layout
+
+\begin_layout Standard
+Ad esempio su un sito web si possono presentare dei degli item consigliati
+ per un utente e se quell'utente clicca su di uno di quegli item, viene
+ considerato un esempio positivo.
+ A quel punto si può intraprendere l'aggiornamento dei parametri del sistema
+ di apprendimento che ha restituito gli item in base al nuovo esempio, ad
+ esempio effettuando un passo di Stochastic Gradient Descent.
+ Sistemi di questo tipo permettono di adattarsi dinamicamente ai gusti degli
+ utenti e di essere efficaci fin da subito nell'utilizzo in uno scenario
+ applicativo reale.
+\end_layout
+
+\end_body
+\end_document

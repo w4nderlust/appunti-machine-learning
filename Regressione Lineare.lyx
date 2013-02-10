@@ -1,0 +1,1118 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass book
+\use_default_options true
+\master Appunti Machine Learning.lyx
+\begin_modules
+theorems-ams
+eqs-within-sections
+figs-within-sections
+\end_modules
+\maintain_unincluded_children false
+\language italian
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Chapter
+Regressione Lineare
+\end_layout
+
+\begin_layout Standard
+La 
+\series bold
+Linear Regression
+\series default
+ (regressione lineare) è un metodo di apprendimento supervisionato che crea
+ un modello di regressione lineare.
+ Permette di apprendere una funzione che, dato un esempio non conosciuto
+ precedentemente ipotizza il valore di output, come ad esempio il caso di
+ predire il costo di una casa data la sua area come mostrato in figura.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename Immagini/Housing Prices.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Regressione Lineare Univariata
+\end_layout
+
+\begin_layout Standard
+Un possibile modello della funzione ipotesi 
+\begin_inset Formula $h$
+\end_inset
+
+ è
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+h_{\theta}(x)=h(x)=\theta_{0}+\theta_{1}x
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+in cui i 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+sono parametri della funzione che andranno stimati in base al training set.
+ Nel caso in cui si utilizzi una sola variabile 
+\begin_inset Formula $x$
+\end_inset
+
+ si parla di 
+\series bold
+Univariate Linear Regresion
+\series default
+ (regressione lineare univariata).
+\end_layout
+
+\begin_layout Standard
+L'idea di base è di scegliere i parametri 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+ in modo tale che 
+\begin_inset Formula $h_{\theta}(x)$
+\end_inset
+
+ sia il più vicino possibile ad 
+\begin_inset Formula $y$
+\end_inset
+
+ negli esempi di apprendimento costituiti da coppie 
+\begin_inset Formula $(x,y)$
+\end_inset
+
+..Per fare ciò si definisce un problema di minimazzione che minimizzi la distranza
+ quadratica tra 
+\begin_inset Formula $h_{\theta}(x)$
+\end_inset
+
+ e 
+\begin_inset Formula $y$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\min_{\theta_{0}\theta_{1}}\frac{1}{2m}\sum_{i=1}^{m}\left(h_{\Theta}(x^{(i)})-y^{(i)}\right)^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+dove 
+\begin_inset Formula $m$
+\end_inset
+
+ è il numero di esempi di apprendimento nel training set.
+ La funzione da minimizzare prende il nome di 
+\series bold
+Cost Function
+\series default
+ o funzione costo e si denomina con 
+\begin_inset Formula $J$
+\end_inset
+
+, in questo caso è lo 
+\series bold
+Squared Error
+\series default
+ o errore quadratico.
+ Esistono altre funzioni costo, ma l'errore quadratico funziona bene nella
+ maggior parte dei casi.
+ Possiamo dunque riscrivere il problema di ottimizzazione come
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+J(\theta_{0},\theta_{1})=\frac{1}{2m}\sum_{i=1}^{m}\left(h_{\theta}(x^{(i)})-y^{(i)}\right)^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\min_{\theta_{0}\theta_{1}}J(\theta_{0},\theta_{1})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Riassumendo abbiamo:
+\end_layout
+
+\begin_layout Itemize
+Ipotesi: 
+\begin_inset Formula $h_{\theta}(x)=h(x)=\theta_{0}+\theta_{1}x$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Parametri: 
+\begin_inset Formula $\theta_{0},\theta_{1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Funzione Costo: 
+\begin_inset Formula $J(\theta_{0},\theta_{1})=\frac{1}{2m}\sum_{i=1}^{m}\left(h_{\theta}(x^{(i)})-y^{(i)}\right)^{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Obiettivo: 
+\begin_inset Formula $\min_{\theta_{0}\theta_{1}}J(\theta_{0},\theta_{1})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Discesa del Gradiente
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Immagini/Gradient Descent.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Gradient Descent
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Gradient-Descent"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Per ottenere i parametri tali che la funzione costo sia minimizzata esistono
+ vari matodi, uno dei più utilizzati è il 
+\series bold
+Gradient Descent
+\series default
+ (discesa del gradiente).
+ Esso consiste nel modificare iterativamente il valore dei parametri 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+ nella direzione della derivata della funzione costo finchè non si raggiungo
+ il minimo.
+ Il minimo che si può raggiungere è un minimo locale, quale minimo locale
+ verrà raggiunto dipende dal punto di partenza, ovvero i valori iniziali
+ dei parametri 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+.
+ Un esempio grafico è mostrato in Figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Gradient-Descent"
+
+\end_inset
+
+.
+ Le iterazioni possono essere fermate anche in base ad un criterio di convergenz
+a quale la differenza dei parametri 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+ rispetto al passo precedente (che indica se il valore dei parametri non
+ sta migliorando in modo sensibile tra un'iterazione e l'altra) o una soglia
+ prefissata per la funzione costo, sotto la quale i parametri 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+ vengono accettati.
+ 
+\end_layout
+
+\begin_layout Standard
+In pratica viene ripetuto finchè non si raggiunge la convergenza (o un qualsivog
+lia criterio di convergenza) il seguente passo
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\theta_{k}:=\theta_{k}-\alpha\frac{\partial}{\partial\theta_{k}}J(\theta_{0},\ldots,\theta_{i})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+dove 
+\begin_inset Formula $:=$
+\end_inset
+
+ significa 
+\emph on
+assegnare simulataneamente
+\emph default
+ e 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ è un parametro chiamato 
+\series bold
+Learning Rate
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Immagini/Learning Rate.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Learning Rate
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Learning-Rate"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Il learning rate regola la velocità di convergenza: se è molto piccolo,
+ la velocità di convergenza sarà bassa, mentre se è grande la convergenza
+ sarà più veloce ma l'algoritmo potrebbe non convergere, come mostrato in
+ Figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Learning-Rate"
+
+\end_inset
+
+.
+ Inoltre, avvicinandosi al minimo, l'algoritmo effettuerà passi più piccoli
+ in quanto l'inclinazione della tangenta diminuirà e quindi la derivata
+ della funzione costo diminuirà, quindi non c'è bisogno di diminuire il
+ learning rate 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ nel tempo.
+\end_layout
+
+\begin_layout Standard
+Un criterio per poter scegleire il learning rate è visualizare l'andamento
+ della funzione costo 
+\begin_inset Formula $J$
+\end_inset
+
+ al variare di 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ all'interno di valori di diversi ordini di grandezza come ad esempio moltiplica
+ndo sempre per 
+\begin_inset Formula $10$
+\end_inset
+
+ ottenendo 
+\begin_inset Formula $\ldots,0.001,0.01,0.1,1,\ldots$
+\end_inset
+
+ oppure moltiplicando per 
+\begin_inset Formula $3$
+\end_inset
+
+ ottenendo 
+\begin_inset Formula $\ldots,0.001,0.003,0.01,0.03,0.1,0.3,1,3,\ldots$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Discesa del Gradiente per la Regressione Lineare Univariata 
+\end_layout
+
+\begin_layout Standard
+Calcolando le derivate parziali, si ottengono le funzioni per aggiornare
+ i due parametri nel caso della regressione lineare:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\theta_{0}:=\theta_{0}-\alpha\frac{1}{m}\sum_{i=1}^{m}\left(h_{\theta}(x^{(i)})-y^{(i)}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\theta_{1}:=\theta_{1}-\alpha\frac{1}{m}\sum_{i=1}^{m}\left(h_{\theta}(x^{(i)})-y^{(i)}\right)\cdot x^{(i)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Poichè la funzione costo per la regressione lineare è sempre convessa, ovvero
+ ha un solo minimo ed è il minimo globale, quindi il gradient descent converge
+ sempre.
+\end_layout
+
+\begin_layout Section
+Regressione Lineare Multivariata
+\end_layout
+
+\begin_layout Standard
+La 
+\series bold
+Multivariate Linear Regresion
+\series default
+ (regressione lineare multivariata) è la regressione lineare nel caso in
+ cui si utilizzi più d una variabile 
+\begin_inset Formula $x$
+\end_inset
+
+, quindi nel caso in cui ogni esempio 
+\begin_inset Formula $x$
+\end_inset
+
+ è composto da più feature 
+\begin_inset Formula $x_{1},\ldots,x_{n}$
+\end_inset
+
+.
+ Si usera la notazione 
+\begin_inset Formula $x_{j}^{(i)}$
+\end_inset
+
+ per indicare la j-esima feature dell'i-esimo esempio.
+\end_layout
+
+\begin_layout Standard
+la funzione ipotesi 
+\begin_inset Formula $h$
+\end_inset
+
+ sarà diversa da quella per il caso univariato perchè dovrà prevedere anche
+ le altrea feature ed i relativi parametri 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+h_{\theta}(x)=\theta_{0}+\theta_{1}x_{1}+\cdots+\theta_{n}x_{n}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Per convenienza di notazione definiamo 
+\begin_inset Formula $x_{0}=1$
+\end_inset
+
+.
+ Così facendo posiamo riscrivere l'ipotesi 
+\begin_inset Formula $h$
+\end_inset
+
+ come:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+h_{\theta}(x)=\theta_{0}x_{0}+\theta_{1}x_{1}+\cdots+\theta_{n}x_{n}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Racchiudendo i parametri all'interno di dei vettori possiamo infine scrivere
+ una versione più compatta dell'ipotesi 
+\begin_inset Formula $h$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+x=\left[\begin{array}{c}
+1\\
+x_{1}\\
+\vdots\\
+x_{n}
+\end{array}\right]=\left[\begin{array}{c}
+x_{0}\\
+x_{1}\\
+\vdots\\
+x_{n}
+\end{array}\right]\in\mathbb{R}^{n+1}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\theta=\left[\begin{array}{c}
+\theta_{0}\\
+\theta_{1}\\
+\vdots\\
+\theta_{n}
+\end{array}\right]\in\mathbb{R}^{n+1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+h_{\theta}(x)=\theta^{\top}x
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Discesa del Gradiente per la Regressione Lineare Multivariata
+\end_layout
+
+\begin_layout Standard
+Riscriviamo la funzione costo 
+\begin_inset Formula $J$
+\end_inset
+
+ e il passo di aggiornamento dei parametri in forma vettorializzata come
+ fatto per l'ipotesi 
+\begin_inset Formula $h$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+J(\theta)=\frac{1}{2m}\sum_{i=1}^{m}\left(h_{\theta}(x^{(i)})-y^{(i)}\right)^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\theta_{k}:=\theta_{k}-\alpha\frac{\partial}{\partial\theta_{k}}J(\theta)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Calcolando le derivate parziali, si ottengono le funzioni per aggiornare
+ i parametri:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\theta_{k}:=\theta_{k}-\alpha\frac{1}{m}\sum_{i=1}^{m}\left(h_{\theta}(x^{(i)})-y^{(i)}\right)\cdot x_{k}^{(i)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+La differenza rispetto al caso univariato è la presenza di 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\lang english
+
+\begin_inset Formula $x_{k}^{(i)}$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+\lang italian
+ in utti i casi, anche per 
+\begin_inset Formula $\theta_{0}$
+\end_inset
+
+, solo che essendo 
+\begin_inset Formula $x_{0}=1$
+\end_inset
+
+ , non c'è alcuna differenza rispetto al caso univariato, che può essere
+ visto un caso particolare del multivariato.
+\end_layout
+
+\begin_layout Section
+Feature Scaling
+\end_layout
+
+\begin_layout Standard
+L'idea di base è fare in modo che utte le feature siano in una scala simile,
+ poiché la convergenza del gradient descent può essere molto lenta se le
+ scale dei valori delle feaure sono molto diverse.
+ Si deve fare in modo che i valori delle feature siano approssimativamente
+ comprese tra 
+\begin_inset Formula $-1$
+\end_inset
+
+ e 
+\begin_inset Formula $+1$
+\end_inset
+
+.
+ Non è importante che la scala sia esattamente la stessa, basta che non
+ siano molto diverse, una regola del pollice può essere quela di cercare
+ di non cambiare l'ordine di grandezza.
+\end_layout
+
+\begin_layout Standard
+Una possibilità è di utilizare la 
+\emph on
+Mean Normalization
+\emph default
+ che consiste nel sottrarre la media 
+\begin_inset Formula $\mu$
+\end_inset
+
+ e dividere per il range, ovvero il massimo meno il minimo:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+x_{i}:=\frac{x_{i}-\mu_{i}}{\max(x_{i})-\min(x_{i})}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In alternativa si può utilizzare la 
+\emph on
+Z-Score Normalization
+\emph default
+ in cui si divide il valore per la varianza 
+\begin_inset Formula $\sigma$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+x_{i}:=\frac{x_{i}-\mu_{i}}{\sigma_{i}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Un esempio dell'impatto del feature scaling è presentato in Figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Esempio-di-Feature-Scaling"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Immagini/Feature Scaling.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Esempio-di-Feature-Scaling"
+
+\end_inset
+
+Esempio di Feature Scaling
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Un altro importante fattore da prendere in considerazione è la scelta delle
+ feature, in quanto spesso usare un numero minore di feature più informative
+ può risultare in modelli migliori rispetto all'utilizzo di molte feature
+ poco informative.
+ Ad esempio per predire il prezzo di una casa probabilmente è più utile
+ utilizzare come feature la sua area che la sua lunghezza e larghezza.
+\end_layout
+
+\begin_layout Section
+Regressione Polinomiale
+\end_layout
+
+\begin_layout Standard
+Non sempre un modello lineare è il più adatto a descrivere i dati di input.
+ Per ottenere modelli polinamiali è sufficiente modificare l'ipotesi 
+\begin_inset Formula $h$
+\end_inset
+
+ per prevedere gradi non unitari per alcune variabili.
+ In questo modo si possono ottenere modelli quadrati:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+h_{\theta}(x)=\theta_{0}+\theta_{1}x+\theta_{2}x^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Questi modelli descrivono una parabola e non sempre sono adatti ai dati.
+ Ad esempio un modell odel genere che valuta il prezzo di una casa in base
+ allla sua area prevederebbe l'abbassamento dei prezzi in modo parabolico
+ dopo una certa dimensione.
+\end_layout
+
+\begin_layout Standard
+Solitamente in questi casi si preferisce usare modelli cubici:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+h_{\theta}(x)=\theta_{0}+\theta_{1}x+\theta_{2}x^{2}+\theta_{3}x^{3}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+che invece continuano ad aumentare, oppure, per evitare problemi di scalatura
+ delle feature, modelli che utilizano la radice quadrata, che ha un andamento
+ più prevedibile:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+h_{\theta}(x)=\theta_{0}+\theta_{1}x+\theta_{2}\sqrt{x_{2}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Un esempio delle differenze che i termini polinomiali possono apportare
+ è mostrata in Figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Regressione-Polinomiale"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Immagini/Polynomial Regression.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Regressione-Polinomiale"
+
+\end_inset
+
+Regressione Polinomiale
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Equazioni Normali
+\end_layout
+
+\begin_layout Standard
+Per ottenere i parametri 
+\begin_inset Formula $\theta$
+\end_inset
+
+ esiste un metodo più semplice rispetto all'utilizzo del gradient descent,
+ ovvero le 
+\series bold
+Normal Equations
+\series default
+ (equazioni normali):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\theta=\left(X^{\top}X\right)^{-1}X^{\top}y
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+dove 
+\begin_inset Formula $m$
+\end_inset
+
+ è il numero degli esempi di training e 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+X=\left[\begin{array}{c}
+\left(x^{(1)}\right)^{\top}\\
+\left(x^{(2)}\right)^{\top}\\
+\vdots\\
+\left(x^{(m)}\right)^{\top}
+\end{array}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+y=\left[\begin{array}{c}
+y^{(1)}\\
+y^{(2)}\\
+\vdots\\
+y^{(m)}
+\end{array}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Comparando in questo caso il gradiente discendente con le equazioni normali
+ otteniamo che il primo è migliore in alcuni casi, le seconde in altri casi.
+ Le caratteristiche sono qui riassunte:
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Gradient Descent
+\end_layout
+
+\begin_layout Itemize
+- Bisogna scegleire il learning rate 
+\begin_inset Formula $\alpha$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+- Converge dopo molte iterazioni
+\end_layout
+
+\begin_layout Itemize
++ Lavora bene anche con un grande numero di esempi
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Normal Equations
+\end_layout
+
+\begin_layout Itemize
++ Non c'è bisogno di scegliere il learning rate 
+\begin_inset Formula $\alpha$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
++ Non si effettuano iterazioni
+\end_layout
+
+\begin_layout Itemize
+- Bisogna calcolare 
+\begin_inset Formula $\left(X^{\top}X\right)^{-1}$
+\end_inset
+
+ che ha complessità 
+\begin_inset Formula $O\left(n\right)^{3}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+- Lento se il numero di esempi è molto grande
+\end_layout
+
+\end_body
+\end_document

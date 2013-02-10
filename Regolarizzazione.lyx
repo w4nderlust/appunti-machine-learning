@@ -1,0 +1,336 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass book
+\use_default_options true
+\master Appunti Machine Learning.lyx
+\begin_modules
+theorems-ams
+eqs-within-sections
+figs-within-sections
+\end_modules
+\maintain_unincluded_children false
+\language italian
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Chapter
+Regolarizzazione
+\end_layout
+
+\begin_layout Standard
+L'overfitting è un problema ricorrente negli algoritmi di machine learning
+ e consiste nell'avere molte feature e un'ipotesi che apprende molto bene
+ sugli esempi di training (
+\begin_inset Formula $J(\theta)=\frac{1}{2(n+1)}\sum_{i=1}^{n+1}\left(h_{\theta}(x^{(i)})-y^{(i)}\right)^{2}\approx0$
+\end_inset
+
+), ma fallisce nel generalizzare il problema e dunque ha scarse prestazioni
+ su nuovi esempi di input.
+ Ad esempio un polinomio di alto grado può classificare molto precisamente
+ gli esempi di training ma essere troppo irregolare e altalenante per riuscire
+ a classificare correttamente nuovi esempi.
+\end_layout
+
+\begin_layout Standard
+Esistono alcune poibili soluzioni per mitigare questo problema:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Ridurre il numero di feature
+\series default
+, selezionando manualmente quali tenere e quali scartare oppure delegando
+ questo compito ad un algoritmo di model selection.
+ Così facendo si perde informazione potenzialmente utile.
+\end_layout
+
+\begin_layout Itemize
+Utilizzare la 
+\series bold
+regolarizzazione
+\series default
+, ovvero mantenere tutte le feature ma ridurne la magnitudine.
+ Questo approccio funziona bene quando abbiamo molte feature e ciascuna
+ influisce un po' nel predire 
+\begin_inset Formula $y$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+La ragolarizzazione consiste nell'imporre, all'interno della funzione costo
+ 
+\begin_inset Formula $J$
+\end_inset
+
+, un costo ulteriore sulla grandezza di ciascun parametro.
+ Questo ha l'effetto di ottenere ipotesi più semplici e meno soggette ad
+ overfitting.
+\end_layout
+
+\begin_layout Standard
+Per avere un'idea del funzionamento della regolarizzazione basta pensare
+ che impore ad un'ipotesi con termini cubici un alto costo per i termini
+ a più alto grado permette di avere un'ipotesi vicina ad una di grado minore
+ con un piccolo contributo da parte dei termini di grado maggiore.
+\end_layout
+
+\begin_layout Section
+Regolarizzazione nella Regressione Lineare
+\end_layout
+
+\begin_layout Standard
+Nel caso di regressione lineare si ottiene:
+\begin_inset Formula 
+\[
+J(\theta)=\frac{1}{2m}\left[\sum_{i=1}^{m}\left(h_{\theta}(x^{(i)})-y^{(i)}\right)^{2}+\lambda\sum_{i=1}^{n}\theta_{i}^{2}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Il parametro 
+\begin_inset Formula $\theta_{0}$
+\end_inset
+
+ non viene penalizzato poiché ha poco effetto sull'ipotesi finale.
+ Il parametro 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ è chimato parametro di regolarizzazione e determina l'intensità dela penalizzaz
+ione: se 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ è molto vicino a 
+\begin_inset Formula $0$
+\end_inset
+
+, la penalizzazione non influisce, mentre se 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ è troppo alto, si ottiene l'effetto che tutti i 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+ tendono a 
+\begin_inset Formula $0$
+\end_inset
+
+ e l'unico parametro a influire è 
+\begin_inset Formula $\theta_{0}$
+\end_inset
+
+ e conseguentemente l'ipotesi corrisponde a una linea orizzontale (un esempio
+ di underfitting).
+\end_layout
+
+\begin_layout Standard
+Le regole di update cambiano di conseguenza in quanto cambia la derivata
+ parziale della funzione costo 
+\begin_inset Formula $J$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\theta_{0}:=\theta_{0}-\alpha\frac{1}{m}\sum_{i=1}^{m}\left(h_{\theta}(x^{(i)})-y^{(i)}\right)\cdot x_{0}^{(i)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline*}
+\theta_{k}:=\theta_{k}-\alpha\left[\frac{1}{m}\sum_{i=1}^{m}\left(h_{\theta}(x^{(i)})-y^{(i)}\right)\cdot x_{k}^{(i)}-\frac{\lambda}{m}\theta_{k}\right]\\
+=\theta_{k}\left(1-\alpha\frac{\lambda}{m}\right)-\left[\alpha\frac{1}{m}\sum_{i=1}^{m}\left(h_{\theta}(x^{(i)})-y^{(i)}\right)\cdot x_{k}^{(i)}\right]
+\end{multline*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Il valore 
+\begin_inset Formula $\left(1-\alpha\frac{\lambda}{n}\right)$
+\end_inset
+
+ tende ad esse vicino a 
+\begin_inset Formula $0.99$
+\end_inset
+
+ quindi ad ogni update il valore di 
+\begin_inset Formula $\theta_{k}$
+\end_inset
+
+ diminuisce e viene indirizzato verso la direzione del gradiente discendente.
+ Il parametro 
+\begin_inset Formula $\theta_{0}$
+\end_inset
+
+ ha una regola a parte in quanto non viene penalizzato dalla regolarizzazone.
+\end_layout
+
+\begin_layout Standard
+Nel caso volessimo utilizzare le normal equation, è sufficiente calcolare:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\theta=\left(X^{\top}X+\lambda\left[\begin{array}{cccc}
+0\\
+ & 1\\
+ &  & \ddots\\
+ &  &  & 1
+\end{array}\right]\right)^{-1}X^{\top}y
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+con 
+\begin_inset Formula $\lambda\geq0$
+\end_inset
+
+.
+ Nel caco in cui 
+\begin_inset Formula $X^{\top}X$
+\end_inset
+
+ non fosse stata invertibile, questa regolarizzazione la renderebbe invertibile.
+\end_layout
+
+\begin_layout Section
+Regolarizzazione nella Regressione Logistica
+\end_layout
+
+\begin_layout Standard
+Nel caso di regressione logistica si ottiene:
+\begin_inset Formula 
+\[
+J(\theta)=-\frac{1}{m}\left[\sum_{i=1}^{m}y^{(i)}\log(h_{\theta}(x^{(i)}))+(1-y^{(i)})\log(1-h_{\theta}(x^{(i)}))\right]+\frac{\lambda}{2m}\sum_{i=1}^{n}\theta_{i}^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Le regole di update cambiano di conseguenza in quanto cambia la derivata
+ parziale della funzione costo 
+\begin_inset Formula $J$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\theta_{0}:=\theta_{0}-\alpha\frac{1}{m}\sum_{i=1}^{m}\left(h_{\theta}(x^{(i)})-y^{(i)}\right)\cdot x_{0}^{(i)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline*}
+\theta_{k}:=\theta_{k}-\alpha\left[\frac{1}{m}\sum_{i=1}^{m}\left(h_{\theta}(x^{(i)})-y^{(i)}\right)\cdot x_{k}^{(i)}-\frac{\lambda}{m}\theta_{k}\right]\\
+=\theta_{k}\left(1-\alpha\frac{\lambda}{m}\right)-\left[\alpha\frac{1}{m}\sum_{i=1}^{m}\left(h_{\theta}(x^{(i)})-y^{(i)}\right)\cdot x_{k}^{(i)}\right]
+\end{multline*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+È possibile notare che le regole di aggiornamento dei parametri 
+\begin_inset Formula $\theta$
+\end_inset
+
+ sono le stesse della regressione lineare, con l'unica differenza nella
+ funzione 
+\begin_inset Formula $h_{\theta}$
+\end_inset
+
+.
+\end_layout
+
+\end_body
+\end_document

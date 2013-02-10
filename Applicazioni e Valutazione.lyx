@@ -1,0 +1,1063 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass book
+\use_default_options true
+\master Appunti Machine Learning.lyx
+\begin_modules
+theorems-ams
+eqs-within-sections
+figs-within-sections
+\end_modules
+\maintain_unincluded_children false
+\language italian
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Chapter
+Applicazione e Valutazione
+\end_layout
+
+\begin_layout Standard
+Per migliorare le prestazioni di un sistema di Machine Learning è possibile
+ fare diverse operazioni:
+\end_layout
+
+\begin_layout Itemize
+Aumentare il numero di esempi di addestramento;
+\end_layout
+
+\begin_layout Itemize
+Utilizzare un insieme ridotto di feature;
+\end_layout
+
+\begin_layout Itemize
+Utilizzare un numero maggiore di feature;
+\end_layout
+
+\begin_layout Itemize
+Aggiungere feature polinomiali;
+\end_layout
+
+\begin_layout Itemize
+Aumentare il fattore di regolarizzazione;
+\end_layout
+
+\begin_layout Itemize
+Ridurre il fattore di regolarizzazione.
+\end_layout
+
+\begin_layout Standard
+Alcune di queste operazioni possono richiedere anche mesi di lavoro in un
+ contesto reale, e potrebbero comunque non portare ad un risultato utile,
+ dunque è importante avere un criterio per decidere quale operazione effettuare.
+\end_layout
+
+\begin_layout Section
+Diagnosi (Train and Test)
+\end_layout
+
+\begin_layout Standard
+Un buon metodo per rendersi conto di cosa attualmente funziona o meno in
+ un algoritmo di apprendimento e per quindi rendersi conto di dove intervenire
+ è la diagnosi.
+ Essa consiste in un test che si può effettuare per avere un'idea più chiara
+ di cosa funziona e cosa non funziona nel sistema di machine learning e
+ di quale sia la via migliore per migliorarne le prestazioni.
+ L'implementazione delle tecnice di diagnosi è lunga, ma il tempo così impiegato
+ è ben speso e permette di guadagnare molto più tempo in futuro.
+\end_layout
+
+\begin_layout Standard
+Per diagnosticare un'ipotesi 
+\begin_inset Formula $h$
+\end_inset
+
+ è possibile dividere il training set in porzioni (ad esempio 70% - 30%)
+ ed utilizzare la principale per il training e la rimanente per il test.
+ Nel caso di problemi di regressione si può calcolare la differenza quadratica
+ media del valore calcolato da 
+\begin_inset Formula $h$
+\end_inset
+
+ rispetto al vero valore 
+\begin_inset Formula $y$
+\end_inset
+
+, mentre nel caso della classificazione si può calcolare una media del numero
+ di errori di classificazione commessi da 
+\begin_inset Formula $h$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Model Selection
+\end_layout
+
+\begin_layout Standard
+Alcuni algoritmi, ad esempio la regressione lineare, possono ottenere prestazion
+i molto differenti dipendentemente da alcuni parametri come ad esempio il
+ grado del polinomio della funzione ipotesi 
+\begin_inset Formula $h$
+\end_inset
+
+.
+ Per poter determinare il miglior parametro si suddivide il training set
+ in tre parti: il nuovo training set, il cross validation set e il test
+ set.
+ Il primo è utilizzato per apprendere il modello, il secondo per determinare
+ il valore migliore del parametro 
+\begin_inset Formula $d$
+\end_inset
+
+ ed il terzo per controllare quanto effettivamente l'ipotesi appresa generalizzi
+ su esempi mai visti prima.
+ L'errori del modello rispetto al trining set è denotato da 
+\begin_inset Formula $J_{train}(\Theta)$
+\end_inset
+
+, l'errore del modello utilizzando il miglior parametro 
+\begin_inset Formula $d$
+\end_inset
+
+ rispetto al cross validation set è denotato da 
+\begin_inset Formula $J_{cv}(\Theta)$
+\end_inset
+
+ e l'errore dell'ipotesi finale 
+\begin_inset Formula $h$
+\end_inset
+
+ rispetto al test set è denotato da 
+\begin_inset Formula $J_{test}(\Theta)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Bias e Varianza
+\end_layout
+
+\begin_layout Standard
+Si parla di alto bias quando siamo in caso di underfitting, l'ipotesi 
+\begin_inset Formula $h$
+\end_inset
+
+ è di grado troppo basso e non si adegua bene rispetto ai dati del training
+ set.
+ Si parla di alta varianza quando invece c'è overfitting, l'ipotesi 
+\begin_inset Formula $h$
+\end_inset
+
+ è di grado troppo alto, corrisponde in modo molto preciso ai dati di training
+ ma non riesce a generalizzare, commettendo molti errori sul cross validation
+ set o sul test set.
+\end_layout
+
+\begin_layout Standard
+In Figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Errore-J(Theta)-d"
+
+\end_inset
+
+ è mostrato l'andamento dell'errore rispetto al test set e rispetto al cross
+ validation set.
+ Sulla sinistra si hanno 
+\begin_inset Formula $J_{train}(\Theta)$
+\end_inset
+
+ e 
+\begin_inset Formula $J_{cv}(\Theta)$
+\end_inset
+
+ alti e si è in caso di underfitting, sulla destra si ha 
+\begin_inset Formula $J_{train}(\Theta)$
+\end_inset
+
+ basso e 
+\begin_inset Formula $J_{cv}(\Theta)$
+\end_inset
+
+ alto e si è in caso di overfitting.
+ Calcolare i valori e vedere se sono vicini o distanti ci può fare un'idea
+ del comportamento che sta avendo l'algoritmo e può indirizzarci verso un
+ aumento o una diminuzione di grado del polinomio o più in generale, verso
+ un intervento di modifica dei parametri liberi 
+\begin_inset Formula $d$
+\end_inset
+
+ del modello ce rappresenta l'ipotesi 
+\begin_inset Formula $h$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Lo stsso discorso vale anche per il fattore di regolarizzazione 
+\begin_inset Formula $\lambda$
+\end_inset
+
+, che può essere selezionato calcolando l'errore sul cross validations set.
+ In Figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Errore-J(Theta)-lambda"
+
+\end_inset
+
+ è mostrato l'andamento dell'errore al variare di 
+\begin_inset Formula $\lambda$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Immagini/Bias-Variance.pdf
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Errore-J(Theta)-d"
+
+\end_inset
+
+Errore rispeto al test set e cross validation set al variare del grado del
+ polinomio
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Immagini/Bias-Variane-lambda.pdf
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Errore-J(Theta)-lambda"
+
+\end_inset
+
+Errore rispeto al test set e cross validation set rispetto al fattore di
+ regolarizzazione 
+\begin_inset Formula $\lambda$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Learning Curves
+\end_layout
+
+\begin_layout Standard
+Le Learning Curves sono uno strumento utile per accorgersi quando un algoritmo
+ soffra bias o soffre per eccessiva varianza.
+ L'idea è di mostrare l'andamento dell'errore di 
+\begin_inset Formula $J_{train}(\Theta)$
+\end_inset
+
+ e 
+\begin_inset Formula $J_{cv}(\Theta)$
+\end_inset
+
+ rispetto al numero di esempi di training 
+\begin_inset Formula $m$
+\end_inset
+
+ utilizzati.
+ Se i due errori hanno un gap piccolo, come mostrato in Figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Learning-Curve-Bias"
+
+\end_inset
+
+, vuol dire che l'algoritmo soffre di bias e aggiugnere alri esempi di training
+ non influisce sulle prestazioni, mentre se il gap è consistente, come in
+ Figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Learning-Curve-Varianza"
+
+\end_inset
+
+, l'algoritmo soffre di alta varianza e quindi aggiungere esempi di training
+ può aiutare a risolvere il problema.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Immagini/High Bias.png
+	width 75text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Learning-Curve-Bias"
+
+\end_inset
+
+Learning Curve con alto Bias
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Immagini/High Variance.png
+	width 75text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Learning-Curve-Varianza"
+
+\end_inset
+
+Learning Curve con alta varianza
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Consigli pratici
+\end_layout
+
+\begin_layout Standard
+Riprendendo le operazioni precedentemente elencate, possiamo ora affermare
+ in quali casi sono utili:
+\end_layout
+
+\begin_layout Itemize
+Aumentare il numero di esempi di addestramento 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ compensa alta varianza
+\end_layout
+
+\begin_layout Itemize
+Utilizzare un insieme ridotto di feature
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ compensa alta varianza
+\end_layout
+
+\begin_layout Itemize
+Utilizzare un numero maggiore di feature
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ compensa alto bias
+\end_layout
+
+\begin_layout Itemize
+Aggiungere feature polinomiali
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ compensa alto bias
+\end_layout
+
+\begin_layout Itemize
+Aumentare il fattore di regolarizzazione
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ compensa alto bias
+\end_layout
+
+\begin_layout Itemize
+Ridurre il fattore di regolarizzazione
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ compensa alta varianza
+\end_layout
+
+\begin_layout Standard
+Nel caso di reti neurali, reti con pochi nodi e pochi livelli hidden sono
+ più prone all'underfitting, mentre reti grandi e con molti livelli sono
+ più prone all'overfitting, ma sperimentalmente si nota come sia meglio
+ mitigare l'overfitting di una rete grande aumentando il parametro di regolarizz
+azione 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ che ridurre le dimensioni della rete.
+\end_layout
+
+\begin_layout Section
+Prgettazione si un sistema di Machine Learning
+\end_layout
+
+\begin_layout Standard
+Vengono qui riassunte alcune idee e linee guida per la progettazione di
+ un sistema di machine learning.
+\end_layout
+
+\begin_layout Standard
+La prima cosa da fare è identificare le feature da utilizzare: conviene
+ fare una lista quanto più possibile esaustiva delle possibilità che si
+ hanno a disposizione, analizzarle singolarmente ed in fine decidere quali
+ utilizzare in base alla praticità.
+ Non esiste in effetti un criterio per assicurarsi che le feature scelte
+ saranno quelle che daranno risultati migliori, ma l'analisi degl ierrori
+ può aiutare ad avere un'idea più chiara.
+\end_layout
+
+\begin_layout Standard
+Per prima cosa bisogna implementare una versione 
+\begin_inset Quotes eld
+\end_inset
+
+quick and dirty
+\begin_inset Quotes erd
+\end_inset
+
+ di un semplice algoritmo di apprendimento e testarla sui dati di cross
+ validation.
+ Analizzando le learning curve che si ottengono da questo esperimento è
+ possibile avere delle indicazioni sull'utilità di aggiugnere altre feature
+ o aumentare il numero di esempi di training o altri interventi.
+ Inoltre analizzando singolarmente i casi in cui l'algoritmo commette degli
+ errori si possono identificare trend e cause comuni di errore, rendendo
+ poi semplice aggiungere feature ad hoc in modo da permettere all'algoritmo
+ di evitare gli errori comessi precedentemente.
+\end_layout
+
+\begin_layout Standard
+Inoltre un'analisi numerica dei risultati degli esperimenti, con metriche
+ appositamente studiate, permette di avere un'idea chiara se una modifica
+ effetuaa porta un vantaggio o peggiora la situazione (ad esempio se utilizzare
+ o meno lo stemming dei termini nella spam detection).
+\end_layout
+
+\begin_layout Section
+Metriche di valutazione
+\end_layout
+
+\begin_layout Standard
+Tra le metriche per analizzare numericamente gli esperimenti, una possibile
+ metrica è l'
+\series bold
+Accuracy
+\series default
+ (accuratezza):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+accuratezza=\frac{\#ClassificatiCorrettamente}{\#Claddificati}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Solitamente l'accuratezza è un indicatore affidabile, ma nel caso di classi
+ molto ristrette, 
+\begin_inset Quotes eld
+\end_inset
+
+skew
+\begin_inset Quotes erd
+\end_inset
+
+ in gergo, l'accuratezza non è un buon indicatore.
+ Se ad esempio solo lo 
+\begin_inset Formula $0.5\%$
+\end_inset
+
+ del test set appartiente alla classe 
+\begin_inset Formula $1$
+\end_inset
+
+ in un problema di classificazione binario, predire sempre la classe 
+\begin_inset Formula $0$
+\end_inset
+
+ avrebbe 
+\begin_inset Formula $accuratezza=99.5\%$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Per questo motivo di adoperano due misure di 
+\series bold
+Precision
+\series default
+ (precisione) e 
+\series bold
+Recall
+\series default
+ (richiamo).
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Classe Reale
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Classe predetta
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Vero Positivo
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Falso Positivo
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Falso Negativo
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Vero Negativo
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nella matrice di contingenza mostrata si evidenziano le possibili predizioni
+ dell'algoritmo rispetto alle reali classe degli esempi.
+ Possiamo definire la precisione come la frazione di esempi appartenenti
+ effetivamente alla classe 
+\begin_inset Formula $1$
+\end_inset
+
+ tra tutti quelli che l'algoritmo ha classificato come appartenenti alla
+ classe 
+\begin_inset Formula $1$
+\end_inset
+
+, ovvero la prima cella sulla prima riga:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+precisione=\frac{\#VeroPositivo}{\#VeroPositivo+\#FalsoPositivo}=\frac{\#VeroPositivo}{\#PredettiPositivi}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Il richiamo invece è la frazione di esempi classificati dall'algoritmo come
+ appartenenti alla classe 
+\begin_inset Formula $1$
+\end_inset
+
+ tra tutti quelli che effettivamente appartengono alla classe 
+\begin_inset Formula $1$
+\end_inset
+
+, ovvero la prima cella sulla prima colonna:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+richiamo=\frac{\#VeroPositivo}{\#VeroPositivo+\#FalsoNegativo}=\frac{\#VeroPositivo}{\#RealiPositivi}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+L'andamento di queste due misure è spesso discordante, al crescere dell'una
+ clala l'altra come mostrato in Figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Richiamo-vs.-Precisione"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Immagini/Precision Recall.png
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Richiamo-vs.-Precisione"
+
+\end_inset
+
+Richiamo vs.
+ Precisione
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Di conseguenza è utile avere un valore unio che sintetizzi idue falori e
+ ci dia una misura complessiva del comportamento dell'algoritmo.
+ La media dei due valori non è adeguata in quanto non tiene in considerazione
+ il fatto che vorremo che entrambi i valori fossero alti, mentre la media
+ darebbe lo stesso punteggio sia ad un algoritmo con precisione di 
+\begin_inset Formula $0.9$
+\end_inset
+
+ e richiamo di 
+\begin_inset Formula $0.1$
+\end_inset
+
+ sia ad uno con precisione 
+\begin_inset Formula $0.4$
+\end_inset
+
+ e richiamo 
+\begin_inset Formula $0.6$
+\end_inset
+
+ quando in effetti il secondo sarebbe molto più utile.
+ Per questo motivo esiste la 
+\series bold
+F-measure
+\series default
+, una misura che riassume i valori facendone una media armonica pesata:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+F_{\beta}=\frac{(1+\beta^{2})PR}{\beta^{2}P+R}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Ponendo 
+\begin_inset Formula $\beta=1$
+\end_inset
+
+ si ottiene la misura più utilizzata che bilanciq equamente precisione e
+ richiamo, ovvero la 
+\series bold
+F
+\begin_inset Formula $_{1}$
+\end_inset
+
+-measure
+\series default
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+F_{1}=\frac{2PR}{P+R}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Dati e Algoritmi
+\end_layout
+
+\begin_layout Standard
+Abbiamo precedentemente visto che avere più dati non sempre porta ad avere
+ prestazioni migliori negli algoritmi di machine learning, ma ci sono delle
+ circostanze in cui un maggior numero di dati aiuta molto.
+\end_layout
+
+\begin_layout Standard
+In particolare bisogna partire da un presupposto: dato un esempio di input
+ 
+\begin_inset Formula $x$
+\end_inset
+
+ con tutte le sue feature, un essere umano esperto del dominio è capace
+ di classificarlo o in generale di assegnare un output 
+\begin_inset Formula $y$
+\end_inset
+
+? Se la risposta è affermativa vuol dire che disponiamo delle informazioni
+ sufficienti su ciascun esempio per classificarlo correttamente.
+ Ad esempio negli esercizi 
+\begin_inset Quotes eld
+\end_inset
+
+fill the gap
+\begin_inset Quotes erd
+\end_inset
+
+ conosce le parole attorno al gap è sufficiente per un essere umano per
+ completare l'esercizio, mentre conoscere solamente la dimensione in metri
+ quadrati non è sufficiente anche per il miglior agente immobiliare per
+ fare una valutazione del prezzo di una casa.
+\end_layout
+
+\begin_layout Standard
+Dopodichè conviene scegliere un algoritmo con molti parametri.
+ Questo garantisce un basso bias dell'ipotesi finale.
+ In fine bisogna dare in pasto un grandissimo numero di esempi all'algoritmo,
+ garantendo dunque che ci sia una bassa varianza.
+ L'algoritmo con basso bias ci garantisce un basso tasso di errore all'interno
+ degli esempi di training.
+ L'alto numero di esempi di training ci garantisce un'alta corrispondenza
+ tra l'errore nel training set e quello nel test set, per cui alla fine
+ si può avere fiducia che il sistema di machine learning abbia un basso
+ errore nel test set.
+\end_layout
+
+\end_body
+\end_document

@@ -1,0 +1,2251 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass book
+\use_default_options true
+\master Appunti Machine Learning.lyx
+\begin_modules
+theorems-ams
+eqs-within-sections
+figs-within-sections
+\end_modules
+\maintain_unincluded_children false
+\language italian
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Chapter
+Reti Neurali
+\end_layout
+
+\begin_layout Standard
+In molti problemi del mondo reale la classificazione è non lineare e il
+ numero delle feature è molto elevato.
+ Queso comporta che per la regressione lineare e la regressione logistica,
+ utilizzando termini polinomiali del 2° ordine (termini quadratici e prodotti
+ tra altri termini) il numero dei termini è dell'ordine 
+\begin_inset Formula $O(n^{2})$
+\end_inset
+
+, mentre utilizzando i termini cubici si arriva all'ordine di 
+\begin_inset Formula $O(n^{3})$
+\end_inset
+
+.
+ In problemi complessi come la computer vision si raggiungono facilmente
+ milioni di feature, il che rende gli algoritmi finora studiati molto pesanti
+ in termini di tempi di esecuzione.
+ Per questo motivo verrano ora descritte le 
+\series bold
+Neural Netowrks
+\series default
+ (reti neurali) che sono un metodo di rappresentazione con una famiglia
+ di algoritmi ad essa associati che permettono di realizzare classificatori
+ non lineari più semplici ed efficienti.
+\end_layout
+
+\begin_layout Standard
+Dal punto di vista storico, le reti neurali nascono per cercare di imitare
+ i neuroni del cervello.
+ Sono state molto utilizzate negli anni '80 e primi '90, hanno perso slancio
+ dal punto di vista accademico negli anni '90 mentre oggi, grazie principalmente
+ al superamento di alcuni limiti hardware, sono tornate ad essere utilizzate
+ e sono la soluzione a stato dell'arte per molti problemi.
+\end_layout
+
+\begin_layout Standard
+L'idea di fondo è che ci sia un unico 
+\begin_inset Quotes eld
+\end_inset
+
+algoritmo
+\begin_inset Quotes erd
+\end_inset
+
+ di apprendimento che possa risolvere tuti i problemi, esattamente come
+ fa il cervello umano.
+ Esso infatti si adatta agli stimoli che riceve e una qualunque parte del
+ cervello umano può imparare a riconoscere segnali da parte di un qualsivoglia
+ organo sensore (neural re-wiring experiments).
+\end_layout
+
+\begin_layout Section
+Rappresentazione di una Rete Neurale
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Immagini/Neuron Model.pdf
+	width 60col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Modello di neurone: unità logistica
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Modello-di-neurone"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Semplificando e astraendo sulla struttura dei neuroni bioloici, essi sono
+ strutturati come unità di calcolo con una serie di connessioni in input
+ chiamate dendriti ed una connessione in output chiamata assone.
+ Ciascun neurone artificiale dunque consiste di input 
+\begin_inset Formula $x$
+\end_inset
+
+, una serie di parametri o pesi 
+\begin_inset Formula $\theta$
+\end_inset
+
+ e di un unico output 
+\begin_inset Formula $h_{\theta}(x)$
+\end_inset
+
+ che corrisponde a una funzione sigmoidale detta 
+\begin_inset Quotes eld
+\end_inset
+
+di attivazione
+\begin_inset Quotes erd
+\end_inset
+
+ tale che 
+\begin_inset Formula $h_{\theta}(x)=\frac{1}{1+e^{-\theta^{\top}x}}$
+\end_inset
+
+, come mstrato in Figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Modello-di-neurone"
+
+\end_inset
+
+.
+ L'input 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+ è detto 
+\begin_inset Quotes eld
+\end_inset
+
+bias unit
+\begin_inset Quotes erd
+\end_inset
+
+, ha sempre valore 
+\begin_inset Formula $1$
+\end_inset
+
+ e non viene sempre disegnato.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Immagini/Neural Network Model.pdf
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Modello di rete neurale
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Modello-di-rete-neurale"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Una rete neurale è composta da più livelli di neuroni: il primo livello
+ è composto da unità di input, dal secondo livello in poi ci sono i livelli
+ nascosti, gli 
+\begin_inset Quotes eld
+\end_inset
+
+hidden layer
+\begin_inset Quotes erd
+\end_inset
+
+, mentre l'ultimo livello è il livello di output, come mostrato in Figura
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Modello-di-rete-neurale"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Con 
+\begin_inset Formula $a_{i}^{(j)}$
+\end_inset
+
+ si denota l'i-esimo neurone del j-esimo livello, mentre con 
+\begin_inset Formula $\Theta^{(j)}$
+\end_inset
+
+ si indica la matrice di paramentri o pesi che mappa il livello 
+\begin_inset Formula $j$
+\end_inset
+
+ di neuroni al livello 
+\begin_inset Formula $j+1$
+\end_inset
+
+.
+ Ciò che viene calcolato da ciascun nodo è:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+a_{1}^{(2)}=g\left(\Theta_{10}^{(1)}x_{0}+\Theta_{11}^{(1)}x_{1}+\Theta_{12}^{(1)}x_{2}+\Theta_{13}^{(1)}x_{3}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+a_{2}^{(2)}=g\left(\Theta_{20}^{(1)}x_{0}+\Theta_{21}^{(1)}x_{1}+\Theta_{22}^{(1)}x_{2}+\Theta_{23}^{(1)}x_{3}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+a_{3}^{(2)}=g\left(\Theta_{30}^{(1)}x_{0}+\Theta_{31}^{(1)}x_{1}+\Theta_{32}^{(1)}x_{2}+\Theta_{33}^{(1)}x_{3}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Ipotizzando che il livello di output sia il 3° e non ci siano altri livelli
+ nascosti:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+h_{\Theta}(x)=a_{1}^{(3)}=g\left(\Theta_{10}^{(2)}a_{0}^{(2)}+\Theta_{11}^{(2)}a_{1}^{(2)}+\Theta_{12}^{(2)}a_{2}^{(2)}+\Theta_{13}^{(2)}a_{3}^{(2)}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Se la rete neurale ha 
+\begin_inset Formula $s_{j}$
+\end_inset
+
+ nodi nel livello 
+\begin_inset Formula $j$
+\end_inset
+
+, 
+\begin_inset Formula $s_{j+1}$
+\end_inset
+
+ nodi nel livello 
+\begin_inset Formula $j+1$
+\end_inset
+
+, allora 
+\begin_inset Formula $\Theta^{(j)}$
+\end_inset
+
+ sarà di dimensioni 
+\begin_inset Formula $s_{j+1}\times\left(s_{j}+1\right)$
+\end_inset
+
+.
+ Ogni singolo livell odella rete effettua un passo computazionale equivalente
+ alla regressione logistica permettendo di calcolare complesse funzioni
+ non lineari sui valori di input.
+ Inoltre le reti possono avere diverse architetture, ovvero un numero diverso
+ di livelli ed un numero diverso di neuroni per ciascun livello, gli unici
+ vincoli sono il numero di nodi nel livello di input e l'unico nodo nel
+ livello di output.
+\end_layout
+
+\begin_layout Standard
+Per ottenere una rappresentazione vettorializzata di una rete neurale basta
+ considerare come vettori 
+\begin_inset Formula $x$
+\end_inset
+
+, 
+\begin_inset Formula $y$
+\end_inset
+
+, 
+\begin_inset Formula $a$
+\end_inset
+
+ e 
+\begin_inset Formula $z$
+\end_inset
+
+, far corrispondere 
+\begin_inset Formula $x=a^{(1)}$
+\end_inset
+
+ e calcolare 
+\begin_inset Formula $z^{(i+1)}=\Theta^{(i)}a^{(i)}$
+\end_inset
+
+ e 
+\begin_inset Formula $a^{(i+1)}=g(z^{(i+1)})$
+\end_inset
+
+ per tutti i livelli 
+\begin_inset Formula $i$
+\end_inset
+
+, ricordandosi di aggiungere 
+\begin_inset Formula $a_{0}^{(i)}=1$
+\end_inset
+
+ per ciascun vettore di ciascun livello.
+\end_layout
+
+\begin_layout Section
+Esempio: funzioni logiche
+\end_layout
+
+\begin_layout Standard
+Un esempio concreto delle capacità di una rete neurale di calcolare funzioni
+ non lineari è la funzione 
+\series bold
+\noun on
+XNOR
+\series default
+\noun default
+.
+ [IMMAGINE] La funzione ritorna 
+\begin_inset Formula $1$
+\end_inset
+
+ quando ha come input due 
+\begin_inset Formula $0$
+\end_inset
+
+ e due 
+\begin_inset Formula $1$
+\end_inset
+
+, ritorna 
+\begin_inset Formula $0$
+\end_inset
+
+ altrimenti.
+ Per poterla calcolare definiamo 4 reti neurali, una per calcolare la funzione
+ 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+ 
+\series bold
+AND
+\series default
+ 
+\begin_inset Formula $x_{2}$
+\end_inset
+
+, un'altra per la funzione 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+ 
+\series bold
+OR
+\series default
+ 
+\begin_inset Formula $x_{2}$
+\end_inset
+
+, un'altra per la funzione 
+\series bold
+NOT
+\series default
+ 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+ e una per calcolare (
+\series bold
+NOT
+\series default
+ 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+) 
+\series bold
+AND
+\series default
+ (
+\series bold
+NOT
+\series default
+ 
+\begin_inset Formula $x_{2}$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+Premessa: la funzione sigmoidale che qui chiamiamo 
+\begin_inset Formula $g$
+\end_inset
+
+ tende ad 
+\begin_inset Formula $1$
+\end_inset
+
+ per 
+\begin_inset Formula $x\rightarrow\infty$
+\end_inset
+
+ e tende a 
+\begin_inset Formula $0$
+\end_inset
+
+ per 
+\begin_inset Formula $x\rightarrow-\infty$
+\end_inset
+
+, ma ha valore di output 
+\begin_inset Formula $0.99$
+\end_inset
+
+ per 
+\begin_inset Formula $x=4.6$
+\end_inset
+
+ e specularmente ha valore di output 
+\begin_inset Formula $0.01$
+\end_inset
+
+ per 
+\begin_inset Formula $x=-4.6$
+\end_inset
+
+.
+ Di conseguenza approssimeremo a 1 e a 0 rispettivamente l'output di 
+\begin_inset Formula $g$
+\end_inset
+
+ per valori maggiori di 
+\begin_inset Formula $4.6$
+\end_inset
+
+ e inferiori a 
+\begin_inset Formula $-4.6$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Per la funzione 
+\series bold
+\noun on
+AND
+\series default
+\noun default
+ basta utilizzare due nodi di input, un nodo di bias e un unico nodo di
+ output.
+ Assegnando pesi in questo modo (il primo peso è assegnato al nodo di bias):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Theta_{AND}^{(1)}=\left[\begin{array}{ccc}
+-30 & +20 & +20\end{array}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Così facendo la funzione calcolata dal neurone di output è la seguente:
+ 
+\begin_inset Formula $h_{\Theta_{AND}}(x)=g(-30+20x_{1}+20x_{2})$
+\end_inset
+
+.
+ Questa funzione calcola, rispettivamente all'input i seguenti valori:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $h_{\Theta_{AND}}(x)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $g(-30)\approx0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $g(-10)\approx0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $g(-10)\approx0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $g(10)\approx1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Circa la funzione 
+\series bold
+OR
+\series default
+ i pesi sono assegnati nel seguente modo:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Theta_{OR}^{(1)}=\left[\begin{array}{ccc}
+-10 & +20 & +20\end{array}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+La funzione calcolata dal neurone di output è la seguente: 
+\begin_inset Formula $h_{\Theta_{OR}}(x)=g(-10+20x_{1}+20x_{2})$
+\end_inset
+
+.
+ Questa funzione calcola, rispettivamente all'input i seguenti valori:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $h_{\Theta_{OR}}(x)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $g(-10)\approx0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $g(10)\approx1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $g(10)\approx1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $g(30)\approx1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Circa la funzione 
+\series bold
+NOT
+\series default
+ i pesi sono assegnati nel seguente modo:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Theta_{NOT}^{(1)}=\left[\begin{array}{cc}
++10 & -20\end{array}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+La funzione calcolata dal neurone di output è la seguente: 
+\begin_inset Formula $h_{\Theta_{NOT}}(x)=g(10-20x_{1})$
+\end_inset
+
+.
+ Questa funzione calcola, rispettivamente all'input i seguenti valori:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $h_{\Theta_{NOT}}(x)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $g(10)\approx1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $g(-10)\approx0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Seguendo quanto fatto per la funzione 
+\series bold
+NOT
+\series default
+ è facile definire la funzione 
+\series bold
+(NOT)
+\series default
+ 
+\series bold
+AND
+\series default
+ 
+\series bold
+(NOT)
+\series default
+ assegnando i pesi nel seguente modo:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Theta_{NOTANDNOT}^{(1)}=\left[\begin{array}{ccc}
++10 & -20 & -20\end{array}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+La funzione calcolata dal neurone di output è la seguente: 
+\begin_inset Formula $h_{\Theta_{NOTANDNOT}}(x)=g(10-20x_{1}-20x_{2})$
+\end_inset
+
+.
+ Questa funzione calcola, rispettivamente all'input i seguenti valori:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $h_{\Theta_{NOTANDNOT}}(x)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $g(10)\approx1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $g(-10)\approx0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $g(-10)\approx0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $g(-30)\approx0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Unendo il tutto in un'unica rete neurale è possibile calcolare la funzione
+ 
+\series bold
+XNOR
+\series default
+.
+ La rete finale è mostrata in Figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Rete-neurale-XNOR"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Immagini/NXOR Neural Network.pdf
+	width 90col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Rete neurale 
+\series bold
+XNOR
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Rete-neurale-XNOR"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+I pesi sono assegnati nel seguente modo:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Theta_{XNOR}^{(1)}=\left[\begin{array}{ccc}
+-30 & +20 & +20\\
++10 & -20 & -20
+\end{array}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Theta_{XNOR}^{(2)}=\left[\begin{array}{ccc}
+-10 & +20 & +20\end{array}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+La funzione calcolata dal neurone di output è la seguente: 
+\begin_inset Formula $h_{\Theta_{XNOR}}(x)=g(-10+20a_{1}^{(2)}+20a_{2}^{(2)})$
+\end_inset
+
+.
+ Questa funzione calcola, rispettivamente all'input i seguenti valori:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $a_{1}^{(2)}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $a_{2}^{(2)}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $h_{\Theta_{XNOR}}(x)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $g(10)\approx1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $g(-10)\approx0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $g(-10)\approx0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $g(10)\approx1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In pratica aggiungendo livelli di neuroni è possibile calcolare funzioni
+ non lineari via via più complesse.
+\end_layout
+
+\begin_layout Section
+Classificazione Multiclasse con le Reti Neurali
+\end_layout
+
+\begin_layout Standard
+La classificazione multiclasse con le reti neurali si può ottenere in maniera
+ molto semplice aggiungendo alla rete neurale tanti nodi di output quante
+ sono le classi ottenendo che 
+\begin_inset Formula $h_{\Theta}(x)\in\mathbb{R}^{n}$
+\end_inset
+
+ dove 
+\begin_inset Formula $n$
+\end_inset
+
+ è il numero di classi o di nodi del livello di output della rete.
+ Rappresentando l'output 
+\begin_inset Formula $y$
+\end_inset
+
+ come un vettore colonna tale che 
+\begin_inset Formula $y\in\mathbb{R}^{n}$
+\end_inset
+
+ dove 
+\begin_inset Formula $n$
+\end_inset
+
+ è il numero di classi è possibile esprimere l'output corretto per la prima
+ classe come 
+\begin_inset Formula $y=\left[\begin{array}{cccc}
+1 & 0 & \cdots & 0\end{array}\right]^{\top}$
+\end_inset
+
+ , l'output per la seconda classe 
+\begin_inset Formula $y=\left[\begin{array}{ccccc}
+0 & 1 & 0 & \cdots & 0\end{array}\right]^{\top}$
+\end_inset
+
+ e così via per tutte le classi.
+ Quello che si vorrebbe ottenere dalla rete è un vettore quanto più possibile
+ simile ai vettori che rappresentano le diverse classi: 
+\begin_inset Formula $h_{\Theta}(x)\approx\left[\begin{array}{cccc}
+1 & 0 & \cdots & 0\end{array}\right]^{\top}$
+\end_inset
+
+ quanto 
+\begin_inset Formula $x$
+\end_inset
+
+ appartiene alla prima classe, 
+\begin_inset Formula $h_{\Theta}(x)\approx\left[\begin{array}{ccccc}
+0 & 1 & 0 & \cdots & 0\end{array}\right]^{\top}$
+\end_inset
+
+ quando 
+\begin_inset Formula $x$
+\end_inset
+
+ appartiene alla seconda classe e così via.
+\end_layout
+
+\begin_layout Section
+Funzione Costo delle Reti Neurali
+\end_layout
+
+\begin_layout Standard
+Denotiamo con 
+\begin_inset Formula $L$
+\end_inset
+
+ il numero di livelli nella rete neurale, con 
+\begin_inset Formula $s_{l}$
+\end_inset
+
+ il numero di unità o nodi per ogni livello 
+\begin_inset Formula $l$
+\end_inset
+
+ senza contare le unità bias e con 
+\begin_inset Formula $K$
+\end_inset
+
+ il numero di classi del problema di classificazione.
+ Inoltre nel caso multiclasse, il caso più generico, 
+\begin_inset Formula $h_{\Theta}(x)\in\mathbb{R}^{K}$
+\end_inset
+
+ e 
+\begin_inset Formula $h_{\Theta}(x)_{k}$
+\end_inset
+
+ denota l'uotput del k-esimo nodo del livello di output.
+\end_layout
+
+\begin_layout Standard
+La funzione costo da minimizzare è analoga a quella della regressione logistica,
+ sommando però i costi di tutti i nodi di output e regolarizzando per tutti
+ i pesi di tutte le matrici 
+\begin_inset Formula $\Theta$
+\end_inset
+
+ di tutti i livelli:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline*}
+J(\theta)=-\frac{1}{n+1}\left[\sum_{i=1}^{n+1}\sum_{k=1}^{K}y_{k}^{(i)}\log(h_{\Theta}(x^{(i)})_{k})+(1-y_{k}^{(i)})\log(1-h_{\Theta}(x^{(i)})_{k})\right]\\
++\frac{\lambda}{2(n+1)}\sum_{l=1}^{L-1}\sum_{i=0}^{s_{l}}\sum_{j=0}^{s_{l+1}}\left(\Theta_{ji}^{(l)}\right)^{2}
+\end{multline*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Anche in questo caso nella regolarizzazione non vengono considerati i parametri
+ del posto 
+\begin_inset Formula $0$
+\end_inset
+
+ in quanto corrispondono alle unità di bias.
+\end_layout
+
+\begin_layout Section
+Algoritmo di Backpropagation
+\end_layout
+
+\begin_layout Standard
+Per poter minimizzare la dunzione costo abbiamo bisogno delle funzioni che
+ calcolino le derivate parziali per permettere ad un algoritmo di ottimizzazione
+ di poter auspicabilmente convergere verso un minimo.
+ Nel caso delle reti neurali si possono calcolare le derivate attraverso
+ un algoritmo chiamato di 
+\series bold
+Backpropagation
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+Esso consiste, per ciascun esempio di input, nel calcolare la Foreward Propagati
+on, ovvero tutti gli 
+\begin_inset Formula $a_{j}^{(l)}$
+\end_inset
+
+, calcolare per ciascun livello l'errore dei nodi rispetto all'output atteso
+ e accumulare il prodotto di questi valori in una mtrice che coterrà proprio
+ le derivate parziali.
+\end_layout
+
+\begin_layout Standard
+Più formalmente, prendendo in considerazione un solo esempio, effettuiamo
+ la foreward propagation:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+a^{(1)}=x
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+z^{(2)}=\Theta^{(1)}a^{(1)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+a^{(2)}=g(z^{(2)})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\vdots
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+z^{(L)}=\Theta^{(L-1)}a^{(L-1)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+a^{(L)}=h_{\Theta}(x)=g(z^{(L)})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Dopodichè calcoliamo i 
+\begin_inset Formula $\delta_{j}^{(l)}$
+\end_inset
+
+, ovvero l'errore del j-esimo nodo del l-esimo livello come:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\delta_{j}^{(L)}=a_{j}^{(L)}-y_{j}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\delta_{j}^{(L-1)}=(\Theta^{(L-1)})^{\top}\delta_{j}^{L}.*g'(z^{(L-1)})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\vdots
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\delta_{j}^{(2)}=(\Theta^{(2)})^{\top}\delta_{j}^{3}.*g'(z^{(2)})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+dove 
+\begin_inset Formula $.*$
+\end_inset
+
+ è il prodotto puntuale e 
+\begin_inset Formula $g'(z^{(l)})$
+\end_inset
+
+ è la derivata di 
+\begin_inset Formula $g$
+\end_inset
+
+ in 
+\begin_inset Formula $z^{(l)}$
+\end_inset
+
+, può essere calcolata come 
+\begin_inset Formula $g'(z^{(l)})=a^{(l)}.*(1-a^{(l)})$
+\end_inset
+
+.
+ Il valore 
+\begin_inset Formula $\delta^{(1)}$
+\end_inset
+
+ non viene calcolato in quanto non avrebbe senso calcolare l'errore dell'input.
+\end_layout
+
+\begin_layout Standard
+È possibile dimostrare che
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial}{\partial\Theta_{ij}^{(l)}}J(\Theta)=a_{j}^{(l)}\delta_{i}^{(l+1)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+se si ignora il fatore di regolarizzazione 
+\begin_inset Formula $\lambda$
+\end_inset
+
+, quindi in questo modo si possono calcolare le derivate parziali da fornire
+ in input ad un algoritmo di ottimizzazione.
+\end_layout
+
+\begin_layout Standard
+Complessivamente, per tenere conto di tutti gli esempi di input, l'algoritmo
+ di backpropagation calcola le derivate nel modo descritto nell'Algoritmo
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Algoritmo-di-Backpropagation"
+
+\end_inset
+
+ in modo tale che;
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial}{\partial\Theta_{ij}^{(l)}}J(\Theta)=D_{ij}^{(l)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+Training Set = 
+\begin_inset Formula $\left\{ (x^{(1)}y^{(1)}),\ldots,(x^{(m)},y^{(m)})\right\} $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Set 
+\begin_inset Formula $\Delta_{ij}^{(l)}:=0$
+\end_inset
+
+ for all 
+\begin_inset Formula $i,$
+\end_inset
+
+j, l
+\end_layout
+
+\begin_layout Itemize
+For 
+\begin_inset Formula $i=1$
+\end_inset
+
+ to 
+\begin_inset Formula $m$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Set 
+\begin_inset Formula $a^{(1)}:=x^{(i)}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Perform Foreward Propagation to compute 
+\begin_inset Formula $a^{(2)},a^{(3)},\ldots,a^{(L)}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Set 
+\begin_inset Formula $\delta^{(L)}:=a^{(L)}-y^{(i)}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Perfrom Back Propagation to compute 
+\begin_inset Formula $\delta^{/L-1)},\ldots,\delta^{(2)}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Set 
+\begin_inset Formula $\Delta_{ij}^{(l)}:=\Delta_{ij}^{(l)}+a_{j}^{(l)}\delta_{i}^{(l+1)}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Plain Layout
+\begin_inset Formula $D_{ij}^{(l)}:=\Delta_{ij}^{(l)}+\lambda\Theta_{ij}^{(l)}$
+\end_inset
+
+ if 
+\begin_inset Formula $j\neq0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $D_{ij}^{(l)}:=\Delta_{ij}^{(l)}$
+\end_inset
+
+ if 
+\begin_inset Formula $j=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Algoritmo-di-Backpropagation"
+
+\end_inset
+
+Algoritmo di Backpropagation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Parametri di una Rete Neurale
+\end_layout
+
+\begin_layout Standard
+Inizializzando i parametri delle matrici 
+\begin_inset Formula $\Theta$
+\end_inset
+
+ di una rete neurale a 
+\begin_inset Formula $0$
+\end_inset
+
+ assicuriamo che i pesi che partono da un nodo di un certo livello vero
+ i nodi del livello successivo saranno sempre uguali, perchè saranno uguali
+ le derivate.
+ In questo modo la rete non si modificherà in modo da calcolare funzioni
+ utili, ma è come se ogni nodo calcolasse la stessa funzione di tutti gli
+ altri.
+\end_layout
+
+\begin_layout Standard
+Per ovviare a questo problema, tutte le matrici devono essere inizializzate
+ singolarmente in un range di valori 
+\begin_inset Formula $[-\epsilon,+\epsilon]$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Gli altri parametri da decidere sono il numero dei livelli e il numero dei
+ nodi di ciascun livello.
+ Per il livello di input ed output la scelta è obbligata: si utilizza il
+ numero di feature per i primi e il numero di classi per i secondi.
+ Circa il numero di hidden layer, anche un solo livello è sufficiente, ma
+ un maggior numero permettono migliori prestazioni, mentre il numero di
+ nodi nei livelli hidden dovrebbero essere sempre lo stesso e da 
+\begin_inset Formula $1$
+\end_inset
+
+ a 
+\begin_inset Formula $4$
+\end_inset
+
+ volte maggiori del numero di nodi del livello di input.
+ Ovviamente più livelli hidden e più nodi nei livelli hidden si decide di
+ utilizzare, più pesante sarà il calcolo dal punto di vista computazionale.
+\end_layout
+
+\begin_layout Standard
+Queste semplici regole si sono rivelate efficaci sperimentalmente.
+\end_layout
+
+\end_body
+\end_document

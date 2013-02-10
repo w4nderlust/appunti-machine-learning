@@ -1,0 +1,803 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass book
+\use_default_options true
+\master Appunti Machine Learning.lyx
+\begin_modules
+theorems-ams
+eqs-within-sections
+figs-within-sections
+\end_modules
+\maintain_unincluded_children false
+\language italian
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Chapter
+Support Vector Machines
+\end_layout
+
+\begin_layout Section
+Funzione Costo ed Ipotesi delle Support Vector Machines
+\end_layout
+
+\begin_layout Standard
+Un punto di partenza per studiare le 
+\series bold
+Support Vector Machines
+\series default
+ (SVM), un potente algoritmo di appreandimento, è la funzione 
+\begin_inset Formula $Cost$
+\end_inset
+
+ della regressione logistica:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Cost(h_{\theta}(x),y)=\begin{cases}
+\begin{array}{c}
+-\log(h_{\theta}(x))\\
+-\log(1-h_{\theta}(x))
+\end{array} & \begin{array}{c}
+y=1\\
+y=0
+\end{array}\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Immagini/Cost1 Cost0.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset Formula $Cost_{1}$
+\end_inset
+
+ e 
+\begin_inset Formula $Cost_{0}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Sostituendo l'angamento logaritmico con due funzioni 
+\begin_inset Formula $Cost_{1}$
+\end_inset
+
+ e 
+\begin_inset Formula $Cost_{0}$
+\end_inset
+
+ con un andamento lineare mostrato in Figura , si ottiene una nuova funzione
+ costo 
+\begin_inset Formula $J$
+\end_inset
+
+ alternativa a quella della regressione logistica definita come segue:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+J(\theta)=-\frac{1}{n+1}\left[\sum_{i=1}^{n+1}y^{(i)}Cost_{1}(\theta^{\top}x^{(i)})+(1-y^{(i)})Cost_{0}(\theta^{\top}x^{(i)})\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Per scrivere la funzione costo 
+\begin_inset Formula $J$
+\end_inset
+
+ delle SVM bisogna fare altre due assunzioni, la prima è di notazione: finora
+ abbiamo visto uno schema ricorrente quando si utilizza la regolarizzazione
+ del tipo 
+\begin_inset Formula $A+\lambda B$
+\end_inset
+
+ dove 
+\begin_inset Formula $A$
+\end_inset
+
+ è la funzione costo originale, 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ è il fattore di regolarizzazione e 
+\begin_inset Formula $B$
+\end_inset
+
+ è la parte di regolarizzazione vera e propria.
+ Nel caso delle SVM si usa la notazione 
+\begin_inset Formula $ $
+\end_inset
+
+
+\begin_inset Formula $CA+B$
+\end_inset
+
+ dove 
+\begin_inset Formula $C$
+\end_inset
+
+ è un fattore che, al contrario di 
+\begin_inset Formula $\lambda$
+\end_inset
+
+, indica l'intesità della funzione costo e non del fattore di normalizazione.
+ Inoltre poiché nella formula della funzione costo della regressione logistica
+ regolarizzata compare come denominatore 
+\begin_inset Formula $n+1$
+\end_inset
+
+, lo si può eliminare.
+ Questo ci fa giungere alla funzione costo per le SVM:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+J(\theta)=C\left[\sum_{i=1}^{n+1}y^{(i)}Cost_{1}(\theta^{\top}x^{(i)})+(1-y^{(i)})Cost_{0}(\theta^{\top}x^{(i)})\right]+\frac{1}{2}\sum_{i=1}^{n}\theta_{i}^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+L'ipotesi 
+\begin_inset Formula $h$
+\end_inset
+
+ è così definita:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+h_{\theta}(x)=\begin{cases}
+\begin{array}{c}
+1\\
+0
+\end{array} & \begin{array}{cc}
+if & \theta^{\top}x\geq0\\
+if & \theta^{\top}x<0
+\end{array}\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Large Margin Classifier
+\end_layout
+
+\begin_layout Standard
+L'ipotesi e la funzione costopepermettono alle SVM di essere un 
+\series bold
+Large Margin Classifier
+\series default
+, ovvero un classificatore che pone il decision boundary tra le classi in
+ modo sa massimizzare la distanza dagli esempi di training.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename Immagini/Large Margin Classifier.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Il decision boundary in nero nella figura garantisce un margine più ampio
+ dagli esempi rispetto a quello verde e a quello magenta.
+ Questa proprietà è valida per 
+\begin_inset Formula $C$
+\end_inset
+
+ molto grandi, mentre con 
+\begin_inset Formula $C$
+\end_inset
+
+ meno grandi non è garantita la miglore distanza, ma l'algoritmo è meno
+ soggetto agli outliers.
+\end_layout
+
+\begin_layout Standard
+La motivazione di questa proprietà è che,con 
+\begin_inset Formula $C$
+\end_inset
+
+ molto grandi l'ottimizzazione favorirà situazioni in cui 
+\begin_inset Formula $A=0$
+\end_inset
+
+.
+ Per via dell'andamento delle funzioni 
+\begin_inset Formula $Cost_{1}$
+\end_inset
+
+ e 
+\begin_inset Formula $Cost_{0}$
+\end_inset
+
+,, ciò accadrà quanto 
+\begin_inset Formula $\theta^{\top}x^{(i)}\geq1$
+\end_inset
+
+ se 
+\begin_inset Formula $y^{(i)}=1$
+\end_inset
+
+ e quando 
+\begin_inset Formula $\theta^{\top}x^{(i)}\leq-1$
+\end_inset
+
+ se 
+\begin_inset Formula $y^{(i)}=0$
+\end_inset
+
+.
+ Ciò trasforma il problema di minimizzazione in un problema di minimizzazione
+ vintolata:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\min_{\theta}\frac{1}{2}\sum_{j=1}^{n}\theta_{j}^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+con vincoli:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\begin{cases}
+\begin{array}{c}
+\theta^{\top}x^{(i)}\geq1\\
+\theta^{\top}x^{(i)}\leq-1
+\end{array} & \begin{array}{cc}
+if & y^{(i)}=1\\
+if & y^{(i)}=0
+\end{array}\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Poiché 
+\begin_inset Formula $\theta^{\top}x^{(i)}$
+\end_inset
+
+ può essere interpretato anche come 
+\begin_inset Formula $p^{(i)}\left\Vert \theta\right\Vert $
+\end_inset
+
+, ovvero la lunghezza della proiezione ci 
+\begin_inset Formula $x$
+\end_inset
+
+ su 
+\begin_inset Formula $\theta$
+\end_inset
+
+ per la norma di 
+\begin_inset Formula $\theta$
+\end_inset
+
+, è facile rendersi conto che un decision boundary (che è perpendicolare
+ al vettore 
+\begin_inset Formula $\theta$
+\end_inset
+
+) vicino agli esempi di training farà si che le proiezioni 
+\begin_inset Formula $p^{(i)}$
+\end_inset
+
+ siano molto piccole e di conseguenza, per rispettare i due vincoli i valori
+ di 
+\begin_inset Formula $\theta$
+\end_inset
+
+ dovranno essere molto grandi, contravvenendo all'obiettivo da minimizzare.
+ Conseguentemente il decision boundary che verrà preselto sarà quell oche
+ garantirà i volori di 
+\begin_inset Formula $\theta$
+\end_inset
+
+ più piccoli, quindi le proiezioni 
+\begin_inset Formula $p^{(i)}$
+\end_inset
+
+ più piccole e quindi descriverà un boundary quanto più possibile distante
+ dagli esempi di training.
+ Quindi l''SVM sotto la condizione di 
+\begin_inset Formula $C$
+\end_inset
+
+ molto grande è un large margin classifier, come mostrato in Figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:SVM-Decision-Boundary"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Immagini/Large vs Small Margin Classifier.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:SVM-Decision-Boundary"
+
+\end_inset
+
+SVM Decision Boundary: Small Margin e Large Margin
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Kernels
+\end_layout
+
+\begin_layout Standard
+Quello che si vuole ottenere è un decision boundary non lineare in modo
+ da poter apprendere funzioni complesse e classificare in modo efficace.
+ Un modo è utilizzare i 
+\series bold
+Kernels
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+Anzichè utilizzare le feature 
+\begin_inset Formula $x_{i}$
+\end_inset
+
+, definiamo dei landmark 
+\begin_inset Formula $l^{(i)}$
+\end_inset
+
+ e delle nuove feature 
+\begin_inset Formula $f_{i}$
+\end_inset
+
+.
+ I landmark 
+\begin_inset Formula $l_{i}$
+\end_inset
+
+ sono dei punti nello spazio (vedremo dopo come selezionarli) e le feature
+ 
+\begin_inset Formula $f_{i}$
+\end_inset
+
+ sono ottune tramite funzioni di similarità tra il vettore dell'esempio
+ 
+\begin_inset Formula $x$
+\end_inset
+
+ e l'i-esimo landmark 
+\begin_inset Formula $l^{(i)}$
+\end_inset
+
+.
+ La funzione di similarità che si decide di utilizzare prender il nome di
+ 
+\series bold
+Kernel
+\series default
+.
+ Ad esempio utilizzando un kernel gaussiano abbiamo che:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+f_{i}=sim(x,l^{(i)})=\exp\left(-\frac{\left\Vert x-l^{(i)}\right\Vert ^{2}}{2\sigma^{2}}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Con questo kernel, se 
+\begin_inset Formula $x\approx l^{(i)}$
+\end_inset
+
+ allora 
+\begin_inset Formula $f_{1}\approx1$
+\end_inset
+
+, mentre se 
+\begin_inset Formula $x$
+\end_inset
+
+ è lontano da 
+\begin_inset Formula $l^{(1)}$
+\end_inset
+
+, allora 
+\begin_inset Formula $f_{1}\approx0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Utilizzando gli 
+\begin_inset Formula $f_{i}$
+\end_inset
+
+ come feature al posto degli 
+\begin_inset Formula $x_{i}$
+\end_inset
+
+ abbiamo che, ad esempio, vogliamo predire 
+\begin_inset Formula $y=1$
+\end_inset
+
+ nel caso in cui 
+\begin_inset Formula $\theta_{0}+\theta_{1}f_{1}+\cdots+\theta_{n}f_{n}\geq0$
+\end_inset
+
+.
+ Ipotizzando di aver ottenuto i 
+\begin_inset Formula $\theta$
+\end_inset
+
+ da un algoritmo di ottimizzazione, i valori 
+\begin_inset Formula $f_{i}$
+\end_inset
+
+ da inserire all'interno della formula per poter calcolare se il risultaot
+ è effettivamente maggiore o uguale di 
+\begin_inset Formula $0$
+\end_inset
+
+ si calcolano per distanza rispetto ai landmark, ovvero utilizzando la funzione
+ kernel, come mostrato nell'esempio in Figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Esempio-Kernel"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+I decision boundary che ri possono ottenere in questo modo sono non lineari,
+ come il bordo rosso in Fiura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Esempio-Kernel"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Immagini/Esempio Kernel.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Esempio-Kernel"
+
+\end_inset
+
+Esempio Kernel
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Un modo per decidere i landmark, il più utilizzato, è quello di utilizzare
+ tutti gli esempi di training come landmark.
+\end_layout
+
+\begin_layout Standard
+Per poter applicare le SVM con i kernel quell oce bisogna fare è calcolare
+ il nuovo vettore 
+\begin_inset Formula $f^{(i)}$
+\end_inset
+
+ a partire da 
+\begin_inset Formula $x^{(i)}$
+\end_inset
+
+ utilizzando la funzione kernel, per ciascun esempio 
+\begin_inset Formula $i$
+\end_inset
+
+, dopodiché risolvere il problema di ottimizzazione:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+J(\theta)=C\left[\sum_{i=1}^{n+1}y^{(i)}Cost_{1}(\theta^{\top}f^{(i)})+(1-y^{(i)})Cost_{0}(\theta^{\top}f^{(i)})\right]+\frac{1}{2}\sum_{i=1}^{n+1}\theta_{i}^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+dove l'apice della sommatoria della regolarizzazione è 
+\begin_inset Formula $n+1$
+\end_inset
+
+ e non 
+\begin_inset Formula $n$
+\end_inset
+
+ come al solito poichè nel vettore 
+\begin_inset Formula $f$
+\end_inset
+
+ si aggiunge una prima componente 
+\begin_inset Formula $f_{0}=1$
+\end_inset
+
+ e quindi il numero di feaure creasce anche esso di uno.
+\end_layout
+
+\begin_layout Standard
+Una piccola differenza che si può notare nelle reali implementazioni è che
+ la sommatoria della regolarizzazione viene sotituita da 
+\begin_inset Formula $\theta^{\top}M\theta,$
+\end_inset
+
+poichè 
+\begin_inset Formula $\theta^{\top}\theta$
+\end_inset
+
+ è uguale alla sommatoria originale, mentre viene aggiunta una matrice 
+\begin_inset Formula $M$
+\end_inset
+
+ che dipende dal tipo di kernel adoperato per ottimizzare i calcoli.
+\end_layout
+
+\begin_layout Standard
+Il motivo per cui i kernel non vengono utilizzati all'interno di altri algoritmi
+ di apprendimento è che nel caso delle SVM ci sono degli accorgimenti implementa
+tivi che permettono di implementare il tutto in modo efficiente, mentre
+ l''utilizzo dei kernel in altri algoritmi comporterebbe grandi rallentamenti.
+\end_layout
+
+\begin_layout Standard
+In fine, al variare del parametro 
+\begin_inset Formula $C$
+\end_inset
+
+ si ha un comportamento inverso a quanto detto per il paramentro di regolarizzaz
+ione 
+\begin_inset Formula $\lambda$
+\end_inset
+
+, ovvero un 
+\begin_inset Formula $C$
+\end_inset
+
+ grande comporta basso bias e maggiore varianza, mentre un 
+\begin_inset Formula $C$
+\end_inset
+
+ piccolo comporta alto bias e bassa varianza.
+\end_layout
+
+\begin_layout Standard
+Nel caso del kernel gaussiano, il parametro 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ grande comporta alto bias e bassa varianza, mentre un 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ basso comporta scarso bias e maggiore varianza.
+\end_layout
+
+\begin_layout Standard
+I kernel più utilizzati sono il kernel gaussiano e il kernel 
+\begin_inset Quotes eld
+\end_inset
+
+lineare
+\begin_inset Quotes erd
+\end_inset
+
+ (che corrisponde a non utilizzare proprio kernel).
+ Esistono alternative quali kernel polinomiali, kernel a differenza di istogramm
+a e kernel su stringhe, ma sono meno utilizzati.
+\end_layout
+
+\begin_layout Section
+Clasificazione Multiclasse con le Support Vector Machines
+\end_layout
+
+\begin_layout Standard
+Nei pacchetti che implementano le SVM sono solitamente presenti strumenti
+ per gestire il caso multiclasse, in caso non ci fossero, allora si può
+ utilizzare la tecnica one-vs-all già descritta in precedenza.
+\end_layout
+
+\end_body
+\end_document

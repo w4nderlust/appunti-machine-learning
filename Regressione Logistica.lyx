@@ -1,0 +1,805 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass book
+\use_default_options true
+\master Appunti Machine Learning.lyx
+\begin_modules
+theorems-ams
+eqs-within-sections
+figs-within-sections
+\end_modules
+\maintain_unincluded_children false
+\language italian
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Chapter
+Regressione Logistica
+\end_layout
+
+\begin_layout Standard
+I problemi di classificazione, al contrario di quelli di regressione che
+ prevedono un output continuo, restituiscono valori discreti: 
+\begin_inset Formula $y\in\{0,1\}$
+\end_inset
+
+ nel caso di classificazione binaria, 
+\begin_inset Formula $y\in\{1,\ldots,n\}$
+\end_inset
+
+ nel caso di classificazione multiclasse.
+ Per il momento ci concentreremo sulla classificazione binaria.
+ Non conviene applicare la regressione per risolvere i problemi di classificazio
+ne in quanto in quel caso avremmo che 
+\begin_inset Formula $h_{\theta}(x)$
+\end_inset
+
+ può essere 
+\begin_inset Formula $<0$
+\end_inset
+
+ e 
+\begin_inset Formula $>1$
+\end_inset
+
+ ed inoltre dovremmo imporre un threshold arbitrario sull'ipotesi per distinguer
+e quando restituire una classe e quando l'altra, ad esempio restituire 1
+ per 
+\begin_inset Formula $h_{\theta}(x)>0.5$
+\end_inset
+
+ e restituire 0 per 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\lang english
+
+\begin_inset Formula $h_{\theta}(x)<0.5$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+\lang italian
+.
+ Pe affrontare problemi di classificazione si può usare una tecnica chiamata
+ 
+\series bold
+Logitic Regression
+\series default
+ (regressione logistica) che fornisce un output dell'ipotesi tale che 
+\begin_inset Formula $0\leq h_{\theta}(x)\leq$
+\end_inset
+
+1.
+\end_layout
+
+\begin_layout Standard
+La rappresentazione dell'ipotesi consiste nell'applicazre una funzione sigmoide
+ 
+\begin_inset Formula $g$
+\end_inset
+
+, anche detta funzione logistica, alla combinazione lineare già vista nella
+ regressione lineare:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+h_{\theta}(x)=g(\theta^{\top}x)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+g(z)=\frac{1}{1+e^{-z}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+h_{\theta}(x)=\frac{1}{1+e^{-\theta^{\top}x}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Immagini/Logistic Function.png
+	width 80col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Funzione sigmoidale o logistica
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Funzione-sigmoidale"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+L'output dell'ipotesi 
+\begin_inset Formula $h$
+\end_inset
+
+ viene interpretato come la probabilità stimata che un determinato input
+ 
+\begin_inset Formula $x$
+\end_inset
+
+ abbia come classe 
+\begin_inset Formula $y=1$
+\end_inset
+
+, mentre il suo complemento indica la probabilità stimata che 
+\begin_inset Formula $y=0$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+h_{\theta}(x)=P(y=1|x;\theta)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P(y=0|x;\theta)=1-P(y=1|x;\theta)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Osservando l'andamento della funzione sigmoide si può affermare che 
+\begin_inset Formula $y=1$
+\end_inset
+
+ quando 
+\begin_inset Formula $h_{\theta}(x)\geq0.5$
+\end_inset
+
+ il che accade quando 
+\begin_inset Formula $\theta^{\top}x\geq0$
+\end_inset
+
+ e che 
+\begin_inset Formula $y=0$
+\end_inset
+
+ quando 
+\begin_inset Formula $h_{\theta}(x)<0.5$
+\end_inset
+
+ il che accade quando 
+\begin_inset Formula $\theta^{\top}x<0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+I parametri dell'ipotesi descrivono una retta, quando l'input è da un lato
+ della retta esso verrà classificato con una classe, se è dall'altro lato
+ verrà classificato come appartenente all'altra classe.
+ Questa retta è chiamata 
+\series bold
+decision boundary
+\series default
+ ed è una proprietà dei parametri appresi e non dei dati di training.
+ Aggiungendo elementi polinomiali all'interno dell'iposi 
+\begin_inset Formula $h$
+\end_inset
+
+ dentro la funzione sigmoide si apprendono parametri che descrivono decision
+ boundary non lineari.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Immagini/Decision Boundary.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Decision Boundary
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+La funzione costo 
+\begin_inset Formula $J$
+\end_inset
+
+ nel caso della regressione lineare era definita come 
+\begin_inset Formula $J(\theta)=\frac{1}{2n}\sum_{i=1}^{n}\left(h_{\theta}(x^{(i)})-y^{(i)}\right)^{2}$
+\end_inset
+
+.
+ Poiché in quel caso l'ipotesi 
+\begin_inset Formula $h$
+\end_inset
+
+ è una funzione lineare, allora 
+\begin_inset Formula $J$
+\end_inset
+
+ era convessa e dunque aveva un unico minimo globale che poteva essere individua
+to utilizzando il gradient descent.
+ Nel caso della regressione logistica l'ipotesi 
+\begin_inset Formula $h$
+\end_inset
+
+ è una funzione sigmoidale, quindi non lineare, e dunque 
+\begin_inset Formula $J$
+\end_inset
+
+ è non convessa e dunque non abbiamo garanzie di convergenza del gradiente
+ discendente.
+ Per questo motivo dobbiamo definire una funzione costo differente:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+J(\theta)=\frac{1}{m}\sum_{i=1}^{m}Cost(h_{\theta}(x)^{(i)},y^{(i)})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Cost(h_{\theta}(x),y)=\begin{cases}
+\begin{array}{c}
+-\log(h_{\theta}(x))\\
+-\log(1-h_{\theta}(x))
+\end{array} & \begin{array}{c}
+y=1\\
+y=0
+\end{array}\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Questo implica che che 
+\begin_inset Formula $y=1$
+\end_inset
+
+ per 
+\begin_inset Formula $h=0$
+\end_inset
+
+ il costo (l'output della funzione 
+\begin_inset Formula $Cost\mbox{}$
+\end_inset
+
+) è infinito, mentre se 
+\begin_inset Formula $h=1$
+\end_inset
+
+ il costo è 
+\begin_inset Formula $0$
+\end_inset
+
+.
+ Nel caso in cui 
+\begin_inset Formula $y=0$
+\end_inset
+
+, per 
+\begin_inset Formula $h=0$
+\end_inset
+
+, il costo è 0 mentre per 
+\begin_inset Formula $h=1$
+\end_inset
+
+, il costo è infinito.
+ Poiché sappiamo che 
+\begin_inset Formula $y$
+\end_inset
+
+ è 
+\begin_inset Formula $1$
+\end_inset
+
+ o 
+\begin_inset Formula $0$
+\end_inset
+
+, possiamo scrivere la funzione 
+\begin_inset Formula $Cost$
+\end_inset
+
+ in un modo equivalente, ma più sintetico:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Cost(h_{\theta}(x),y)=-y\log(h_{\theta}(x))-(1-y)\log(1-h_{\theta}(x))
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Quindi possiamo riscrivere in maniera completa la funzione costo 
+\begin_inset Formula $J$
+\end_inset
+
+ (il 
+\begin_inset Formula $-$
+\end_inset
+
+ è stato portato fuori dalla sommatoria):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline*}
+J(\theta)=\frac{1}{m}\sum_{i=1}^{n+1m}Cost(h_{\theta}(x)^{(i)},y^{(i)})\\
+=-\frac{1}{m}\left[\sum_{i=1}^{m}y^{(i)}\log(h_{\theta}(x^{(i)}))+(1-y^{(i)})\log(1-h_{\theta}(x^{(i)}))\right]
+\end{multline*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Ora non resta che minimizzare i parametri 
+\begin_inset Formula $\theta$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Discesa del Gradiente per la Regressione Logistica
+\end_layout
+
+\begin_layout Standard
+Riscriviamo la funzione costo 
+\begin_inset Formula $J$
+\end_inset
+
+ e il passo di aggiornamento dei parametri in forma vettorializzata come
+ fatto per l'ipotesi 
+\begin_inset Formula $h$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+J(\theta)=-\frac{1}{m}\left[\sum_{i=1}^{m}y^{(i)}\log(h_{\theta}(x^{(i)}))+(1-y^{(i)})\log(1-h_{\theta}(x^{(i)}))\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\theta_{k}:=\theta_{k}-\alpha\frac{\partial}{\partial\theta_{k}}J(\theta)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Calcolando le derivate parziali, si ottengono le funzioni per aggiornare
+ i parametri:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\theta_{k}:=\theta_{k}-\alpha\frac{1}{m}\sum_{i=1}^{m}\left(h_{\theta}(x^{(i)})-y^{(i)}\right)\cdot x_{k}^{(i)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Sono le stesse della regressione lineare.
+ Ciò che cambia è ovviamente la definizione dell'ipotesi 
+\begin_inset Formula $h$
+\end_inset
+
+ chein questo caso è una funzione sigmoidale.
+\end_layout
+
+\begin_layout Section
+Algoritmi di ottimizzazione
+\end_layout
+
+\begin_layout Standard
+Oltre al gradient descent è possibile utilizzare altri algoritmi di ottimizzazio
+ne, i più utilizzati sono:
+\end_layout
+
+\begin_layout Itemize
+Conjugate Gradient
+\end_layout
+
+\begin_layout Itemize
+BFGS
+\end_layout
+
+\begin_layout Itemize
+L-BFGS
+\end_layout
+
+\begin_layout Standard
+Questi algoritmi hanno il vantaggio di non dover scegliere un learning rate
+ 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ e di convergere più velocemente.
+ Hanno in ogni caso lo svantaggio di essere più complessi del gradient descent.
+\end_layout
+
+\begin_layout Standard
+Per poterli utilizzare nei software di algebra computazionale bisogna definire
+ una funzione che descriva come calcolare 
+\begin_inset Formula $J$
+\end_inset
+
+ e le regole di update dei parametri 
+\begin_inset Formula $\theta$
+\end_inset
+
+.
+ Fornendo un puntatore a questa funzione, alcuni parametri quali numero
+ di ierazioni massimo) e i parametri 
+\begin_inset Formula $\theta$
+\end_inset
+
+ iniziali, questi algoritmi stimano i parametri ottimali.
+ La funzione da utilizzare è 
+\noun on
+fminunc
+\noun default
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+// jVal = valore della funzione costo J
+\end_layout
+
+\begin_layout Plain Layout
+
+// gradient = regola di update per i parametri theta
+\end_layout
+
+\begin_layout Plain Layout
+
+function [jVal, gradient] = costFunction(theta)
+\end_layout
+
+\begin_layout Plain Layout
+
+	jval = ...;
+\end_layout
+
+\begin_layout Plain Layout
+
+	gradient = zeros(n, 1);
+\end_layout
+
+\begin_layout Plain Layout
+
+	gradient(1) = ...;
+\end_layout
+
+\begin_layout Plain Layout
+
+	gradient(...) = ...;
+\end_layout
+
+\begin_layout Plain Layout
+
+	gradient(n) = ...;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+options = ['GrabObj', 'on', 'MaxIter', '100'];
+\end_layout
+
+\begin_layout Plain Layout
+
+initialTheta = [1, 2];
+\end_layout
+
+\begin_layout Plain Layout
+
+// optTheta = valore ottimizzato dei parametri theta
+\end_layout
+
+\begin_layout Plain Layout
+
+// functionVal = valore di J all'ultima iterazione
+\end_layout
+
+\begin_layout Plain Layout
+
+// extiStatus = status di convergenza dell'algoritmo
+\end_layout
+
+\begin_layout Plain Layout
+
+[optTheta, functionVal, exitStatus] =
+\end_layout
+
+\begin_layout Plain Layout
+
+	fminunc(@costFunction, initialTheta, options);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Classificazione Multiclasse con la Regressione Logistica
+\end_layout
+
+\begin_layout Standard
+La logistic regression, così come in generale tutti gli algoritmi di classificaz
+ione, può essere applicata a casi in cui sono presenti più di due classi.
+ È sufficiente addestrare tanti classificatori quante sono le classi in
+ modo one-vs-all o one-vs-rest, ovvero decidendo una classe e impostando
+ tutti gli elementi di quella classe come 
+\begin_inset Formula $y=1$
+\end_inset
+
+ e impostando tutti gli elementi delle altre classi con 
+\begin_inset Formula $y=0$
+\end_inset
+
+.
+ Ripetendo questo procedimento per tutte le classi si ottengono tanti classifica
+tori 
+\begin_inset Formula $h_{\theta}^{(i)}(x)$
+\end_inset
+
+ quante sono le classi.
+ Per assegnare una classe all'input 
+\begin_inset Formula $x$
+\end_inset
+
+, è sufficiente calcolare la classe con probabilità stimata massima 
+\begin_inset Formula $\max_{i}h_{\theta}^{(i)}(x)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Graficamente il processo è mostrato in Figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:One-vs-All"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Immagini/One VS All.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:One-vs-All"
+
+\end_inset
+
+One-vs-All
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
