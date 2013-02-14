@@ -1,0 +1,431 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass book
+\use_default_options true
+\maintain_unincluded_children false
+\language italian
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Chapter
+Clustering
+\end_layout
+
+\begin_layout Standard
+Il Clustering è un tipico esempio di 
+\series bold
+Unsupervised Learning
+\series default
+ (apprendimento non supervisionato) in cui, dato un insieme di dati non
+ etichettati, l'obiettivo è quello di individuare dei raggruppamenti, detti
+ cluster, quanto più possibile coerenti.
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+K-Means
+\end_layout
+
+\begin_layout Standard
+L'algoritmo 
+\series bold
+K-Means
+\series default
+ è l'algoritmo di clustering più conosciuto e più utilizzato.
+\end_layout
+
+\begin_layout Standard
+Illustreremo il suo comportamento per mezzo di figure.
+ Inizialmente viene fornito il dataset e vengono inizializzati due punti,
+ detti i centroidi (centroid) dei cluster, mostrati nella figura sottostante
+ per mezzo di una croce rossa e una blu.
+ Sono due perchè l'obiettivo in questo caso è quello di individuare due
+ cluster.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename Immagini/Clustering 1.png
+	width 80col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+K-Means è un algoritmo iterativo che ripete due passi, il primo è il passo
+ di assegnazione ai cluster, mentre il secondo è il passo di spostamento
+ dei centroidi.
+\end_layout
+
+\begin_layout Standard
+Il primo passo di assgnazione ai cluster controlla la distanza di ogni punto
+ del dataset dai centroidi e assegna ciascun punto al centroide che gli
+ è più vicino.
+ Nella figura sottostante i punti più vicini al centroide del cluster rosso
+ sono stati colorati di rosso, mentre i punti più vicini al centroid del
+ cluster blu sono stati colorati di blu.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename Immagini/Clustering 2.png
+	width 80col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Il secondo passo, quello si spostamento dei centroidi consiste nel calcolare
+ la media di tutti i punti nel dataset che appartengono ad un cluster e
+ muovere in quella posizione il centroide del cluster, come mostrato nella
+ figura sottostante.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename Immagini/Clustering 3.png
+	width 80col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Sono mostrate nelle figure sottostanti rispettivamente la seconda iterazione
+ del primo passo e la seconda iterazione del secondo passo.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename Immagini/Clustering 4.png
+	width 80col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename Immagini/Clustering 5.png
+	width 80col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+L'algoritmo continua in questo modo finchè i centroidi non si spostano più,
+ il che significa che l'algoritmo ha raggiunto la convergenza, come mostrato
+ nella figura sottostante.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename Immagini/Clustering 6.png
+	width 80col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In modo più formale, l'algoritmo ha in input un numero 
+\begin_inset Formula $K$
+\end_inset
+
+ che indica il numero di cluster (come decidere questo valore verrà discusso
+ in seguito ????????) e un training set 
+\begin_inset Formula $\{x^{(1)},x^{(2)},\ldots,x^{(m)}\}$
+\end_inset
+
+, dove ciascun 
+\begin_inset Formula $x^{(i)}\in R^{n}$
+\end_inset
+
+, senza seguire dunque la convenzione adottata finora nel Supervised Learning
+ di 
+\begin_inset Formula $x_{0}=1$
+\end_inset
+
+, e itera un ciclo mostrato in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:K-Means"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+Number of Clusters = 
+\begin_inset Formula $K$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Training Set = 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\lang english
+
+\begin_inset Formula $\{x^{(1)},x^{(2)},\ldots,x^{(m)}\}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Randomly initialize 
+\begin_inset Formula $K$
+\end_inset
+
+ centroids 
+\begin_inset Formula $\mu_{1},\mu_{2},\ldots,\mu_{K}\in R^{n}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Repeat until convergence
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+For 
+\begin_inset Formula $i=1$
+\end_inset
+
+ to 
+\begin_inset Formula $m$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $c^{(i)}:=\min_{k}\left\Vert x^{(i)}-\mu_{k}\right\Vert $
+\end_inset
+
+(the index from 
+\begin_inset Formula $1$
+\end_inset
+
+ to 
+\begin_inset Formula $K$
+\end_inset
+
+ of cluster centroid closer to 
+\begin_inset Formula $x^{(i)}$
+\end_inset
+
+)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+For 
+\begin_inset Formula $k=1$
+\end_inset
+
+ to 
+\begin_inset Formula $K$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\mu_{k}:=\frac{\sum x^{(i)}}{z}\,\forall c^{(i)}=k,\, z=num(c^{(i)}=k)$
+\end_inset
+
+ (average (mean) of point assigned to cluster 
+\begin_inset Formula $k$
+\end_inset
+
+)
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:K-Means"
+
+\end_inset
+
+K-Means
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nel caso in cui durante l'esecuzione un cluster non dovesse avere alcun
+ punto assegnato si può decidere di eliminarlo o di reinizializzarl ocasualmente
+, ma questo non accade spesso.
+\end_layout
+
+\begin_layout Standard
+Applicare K-Means nel caso di dati non perfettamente separabili può essere
+ utile per creare delle segmentazioni dei dati stessi.
+ Nell'esempio mostrato in Figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:K-Means-su-cluster"
+
+\end_inset
+
+ vengono individuati tre cluster corrispondenti a trediverse tagli di magliette
+ basandosi su altezza e peso delle persone.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Immagini/Non-separated Clusters.png
+	width 80col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:K-Means-su-cluster"
+
+\end_inset
+
+K-Means su cluster non separati
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

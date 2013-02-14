@@ -204,6 +204,41 @@ Supervised Learning
 \end_inset
 
 
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Immagini/Supervised Learning.png
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Esempio di Supervised Learning
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -216,7 +251,10 @@ Nell'
 Unsupervised Learning
 \series default
  (apprendimento non supervisionato) vengono forniti esempi con relative
- feature in input, ma non viene fornito alcun valore di output.
+ feature in input, ma non viene fornito alcun valore di output, quindi si
+ hanno a disposizione dati non etichettati.
+ L'obiettivo di questa famiglia di algoritmi è quello di trovare delle strutture
+ all'interno di questi dati non etichettati.
  Se si vogliono identificare dei raggruppamenti di elementi simili, è un
  problema di 
 \series bold
@@ -230,8 +268,46 @@ Blind Source Separation
 \series default
 .
  Esistono altri problemi di apprendimento non supervisionato, tutti condividono
- il non avere etichette o valori di ouput e consistono nello scoprire nuove
- proprità nei dati forniti in input.
+ l'avere dati privi di etichette o valori di ouput e consistono nello scoprire
+ nuove proprità nei dati forniti in input.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Immagini/Unsupervised Learning.png
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Esempio di Unsupervised Learning
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_body
