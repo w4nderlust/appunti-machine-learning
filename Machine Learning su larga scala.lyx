@@ -141,7 +141,7 @@ cost(\theta,(x^{(i)},y^{(i)}))=\frac{1}{2}\left(h_{\theta}(x^{(i)})-y^{(i)}\righ
 
 \end_inset
 
-x
+
 \begin_inset Formula 
 \[
 J(\theta)=\frac{1}{m}\sum_{i=1}^{m}cost(\theta,(x^{(i)},y^{(i)}))
@@ -350,7 +350,7 @@ Il Mini-batch Gradient Descent è una via di mezzo tra il Batch Gradient
 \end_inset
 
  che denota il numero di esempi da utilizzare ad ogni iterazione.
- Impostanto 
+ Impostando 
 \begin_inset Formula $b=m$
 \end_inset
 

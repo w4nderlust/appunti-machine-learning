@@ -85,7 +85,7 @@ L'overfitting è un problema ricorrente negli algoritmi di machine learning
 \end_layout
 
 \begin_layout Standard
-Esistono alcune poibili soluzioni per mitigare questo problema:
+Esistono alcune possibili soluzioni per mitigare questo problema:
 \end_layout
 
 \begin_layout Itemize
@@ -125,7 +125,7 @@ La ragolarizzazione consiste nell'imporre, all'interno della funzione costo
 
 \begin_layout Standard
 Per avere un'idea del funzionamento della regolarizzazione basta pensare
- che impore ad un'ipotesi con termini cubici un alto costo per i termini
+ che imporre ad un'ipotesi con termini cubici un alto costo per i termini
  a più alto grado permette di avere un'ipotesi vicina ad una di grado minore
  con un piccolo contributo da parte dei termini di grado maggiore.
 \end_layout

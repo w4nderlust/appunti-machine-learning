@@ -14,7 +14,7 @@ Tutto il materiale originale è distribuito sotto licenza Creative Commons Attri
 
 Versioni
 v0.1
-Aggiusnti i seguenti capitoli:
+Aggiunti i seguenti capitoli:
 - Introduzione
 - Regressione Lineare
 - Regressione Logistica
