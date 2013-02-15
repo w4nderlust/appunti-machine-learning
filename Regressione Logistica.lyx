@@ -135,7 +135,7 @@ e quando restituire una classe e quando l'altra, ad esempio restituire 1
  Pe affrontare problemi di classificazione si può usare una tecnica chiamata
  
 \series bold
-Logitic Regression
+Logistic Regression
 \series default
  (regressione logistica) che fornisce un output dell'ipotesi tale che 
 \begin_inset Formula $0\leq h_{\theta}(x)\leq$
@@ -145,7 +145,7 @@ Logitic Regression
 \end_layout
 
 \begin_layout Standard
-La rappresentazione dell'ipotesi consiste nell'applicazre una funzione sigmoide
+La rappresentazione dell'ipotesi consiste nell'applicare una funzione sigmoide
  
 \begin_inset Formula $g$
 \end_inset

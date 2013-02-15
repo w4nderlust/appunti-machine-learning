@@ -150,8 +150,9 @@ L'idea di base è di scegliere i parametri
 \begin_inset Formula $(x,y)$
 \end_inset
 
-..Per fare ciò si definisce un problema di minimazzione che minimizzi la distranza
- quadratica tra 
+.
+ Per fare ciò si definisce un problema di minimizzazione che minimizzi la
+ distranza quadratica tra 
 \begin_inset Formula $h_{\theta}(x)$
 \end_inset
 
@@ -311,7 +312,7 @@ Gradient Descent
 \begin_inset Formula $\theta_{i}$
 \end_inset
 
- nella direzione della derivata della funzione costo finchè non si raggiungo
+ nella direzione della derivata della funzione costo finchè non si raggiunge
  il minimo.
  Il minimo che si può raggiungere è un minimo locale, quale minimo locale
  verrà raggiunto dipende dal punto di partenza, ovvero i valori iniziali
@@ -433,7 +434,7 @@ reference "fig:Learning-Rate"
 
 .
  Inoltre, avvicinandosi al minimo, l'algoritmo effettuerà passi più piccoli
- in quanto l'inclinazione della tangenta diminuirà e quindi la derivata
+ in quanto l'inclinazione della tangente diminuirà e quindi la derivata
  della funzione costo diminuirà, quindi non c'è bisogno di diminuire il
  learning rate 
 \begin_inset Formula $\alpha$
@@ -504,8 +505,8 @@ Calcolando le derivate parziali, si ottengono le funzioni per aggiornare
 \end_layout
 
 \begin_layout Standard
-Poichè la funzione costo per la regressione lineare è sempre convessa, ovvero
- ha un solo minimo ed è il minimo globale, quindi il gradient descent converge
+Poiché la funzione costo per la regressione lineare è sempre convessa, ovvero
+ ha un solo minimo ed è il minimo globale, il gradient descent converge
  sempre.
 \end_layout
 
@@ -744,7 +745,7 @@ Feature Scaling
 \end_layout
 
 \begin_layout Standard
-L'idea di base è fare in modo che utte le feature siano in una scala simile,
+L'idea di base è fare in modo che tutte le feature siano in una scala simile,
  poiché la convergenza del gradient descent può essere molto lenta se le
  scale dei valori delle feaure sono molto diverse.
  Si deve fare in modo che i valori delle feature siano approssimativamente
@@ -874,12 +875,12 @@ Regressione Polinomiale
 
 \begin_layout Standard
 Non sempre un modello lineare è il più adatto a descrivere i dati di input.
- Per ottenere modelli polinamiali è sufficiente modificare l'ipotesi 
+ Per ottenere modelli polinomiali è sufficiente modificare l'ipotesi 
 \begin_inset Formula $h$
 \end_inset
 
  per prevedere gradi non unitari per alcune variabili.
- In questo modo si possono ottenere modelli quadrati:
+ In questo modo si possono ottenere modelli quadratici:
 \end_layout
 
 \begin_layout Standard
@@ -895,8 +896,8 @@ h_{\theta}(x)=\theta_{0}+\theta_{1}x+\theta_{2}x^{2}
 
 \begin_layout Standard
 Questi modelli descrivono una parabola e non sempre sono adatti ai dati.
- Ad esempio un modell odel genere che valuta il prezzo di una casa in base
- allla sua area prevederebbe l'abbassamento dei prezzi in modo parabolico
+ Ad esempio un modello del genere che valuta il prezzo di una casa in base
+ alla sua area prevederebbe l'abbassamento dei prezzi in modo parabolico
  dopo una certa dimensione.
 \end_layout
 
@@ -917,7 +918,7 @@ h_{\theta}(x)=\theta_{0}+\theta_{1}x+\theta_{2}x^{2}+\theta_{3}x^{3}
 
 \begin_layout Standard
 che invece continuano ad aumentare, oppure, per evitare problemi di scalatura
- delle feature, modelli che utilizano la radice quadrata, che ha un andamento
+ delle feature, modelli che utilizzano la radice quadrata, che ha un andamento
  più prevedibile:
 \end_layout
 
@@ -1054,7 +1055,7 @@ y^{(m)}
 
 \begin_layout Standard
 Comparando in questo caso il gradiente discendente con le equazioni normali
- otteniamo che il primo è migliore in alcuni casi, le seconde in altri casi.
+ otteniamo che il primo è migliore in alcuni casi, le seconde in altri.
  Le caratteristiche sono qui riassunte:
 \end_layout
 
