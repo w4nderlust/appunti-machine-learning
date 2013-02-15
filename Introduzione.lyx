@@ -121,7 +121,7 @@ nza ad una determinata classe, il problema è di
 Classificazione
 \series default
 .
- Se invece l'autput è un valore reale continuo in un determinato range allora
+ Se invece l'output è un valore reale continuo in un determinato range allora
  il problema è di 
 \series bold
 Regressione
@@ -165,7 +165,7 @@ target value
 \end_inset
 
  per indicare l'i-esimo valore di output.
- Nel caso in cui ci siano feature multiple si usera la notazione 
+ Nel caso in cui ci siano feature multiple si userà la notazione 
 \begin_inset Formula $x_{j}^{(i)}$
 \end_inset
 

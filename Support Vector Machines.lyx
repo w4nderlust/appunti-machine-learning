@@ -79,7 +79,7 @@ Un punto di partenza per studiare le
 \series bold
 Support Vector Machines
 \series default
- (SVM), un potente algoritmo di appreandimento, è la funzione 
+ (SVM), un potente algoritmo di apprendimento, è la funzione 
 \begin_inset Formula $Cost$
 \end_inset
 
@@ -146,7 +146,7 @@ status open
 \end_layout
 
 \begin_layout Standard
-Sostituendo l'angamento logaritmico con due funzioni 
+Sostituendo l'andamento logaritmico con due funzioni 
 \begin_inset Formula $Cost_{1}$
 \end_inset
 
@@ -265,7 +265,7 @@ Large Margin Classifier
 \end_layout
 
 \begin_layout Standard
-L'ipotesi e la funzione costopepermettono alle SVM di essere un 
+L'ipotesi e la funzione costo permettono alle SVM di essere un 
 \series bold
 Large Margin Classifier
 \series default
@@ -300,7 +300,7 @@ Il decision boundary in nero nella figura garantisce un margine più ampio
 \end_layout
 
 \begin_layout Standard
-La motivazione di questa proprietà è che,con 
+La motivazione di questa proprietà è che con 
 \begin_inset Formula $C$
 \end_inset
 
@@ -317,7 +317,7 @@ La motivazione di questa proprietà è che,con
 \begin_inset Formula $Cost_{0}$
 \end_inset
 
-,, ciò accadrà quanto 
+, ciò accadrà quanto 
 \begin_inset Formula $\theta^{\top}x^{(i)}\geq1$
 \end_inset
 
@@ -335,7 +335,7 @@ La motivazione di questa proprietà è che,con
 
 .
  Ciò trasforma il problema di minimizzazione in un problema di minimizzazione
- vintolata:
+ vincolata:
 \end_layout
 
 \begin_layout Standard
@@ -425,7 +425,7 @@ Poiché
 
  più piccole e quindi descriverà un boundary quanto più possibile distante
  dagli esempi di training.
- Quindi l''SVM sotto la condizione di 
+ Quindi l'SVM sotto la condizione di 
 \begin_inset Formula $C$
 \end_inset
 
@@ -526,7 +526,7 @@ Anzichè utilizzare le feature
 \end_inset
 
 .
- La funzione di similarità che si decide di utilizzare prender il nome di
+ La funzione di similarità che si decide di utilizzare prende il nome di
  
 \series bold
 Kernel
@@ -596,7 +596,7 @@ Utilizzando gli
 \begin_inset Formula $f_{i}$
 \end_inset
 
- da inserire all'interno della formula per poter calcolare se il risultaot
+ da inserire all'interno della formula per poter calcolare se il risultato
  è effettivamente maggiore o uguale di 
 \begin_inset Formula $0$
 \end_inset
@@ -613,8 +613,8 @@ reference "fig:Esempio-Kernel"
 \end_layout
 
 \begin_layout Standard
-I decision boundary che ri possono ottenere in questo modo sono non lineari,
- come il bordo rosso in Fiura 
+I decision boundary che si possono ottenere in questo modo sono non lineari,
+ come il bordo rosso in Figura 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Esempio-Kernel"
@@ -671,7 +671,7 @@ Un modo per decidere i landmark, il più utilizzato, è quello di utilizzare
 \end_layout
 
 \begin_layout Standard
-Per poter applicare le SVM con i kernel quell oce bisogna fare è calcolare
+Per poter applicare le SVM con i kernel quello che bisogna fare è calcolare
  il nuovo vettore 
 \begin_inset Formula $f^{(i)}$
 \end_inset
@@ -715,7 +715,7 @@ dove l'apice della sommatoria della regolarizzazione è
 \begin_inset Formula $f_{0}=1$
 \end_inset
 
- e quindi il numero di feaure creasce anche esso di uno.
+ e quindi il numero di feature cresce anche esso di uno.
 \end_layout
 
 \begin_layout Standard

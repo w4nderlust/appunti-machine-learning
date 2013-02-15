@@ -116,8 +116,8 @@ Un buon metodo per rendersi conto di cosa attualmente funziona o meno in
  Essa consiste in un test che si può effettuare per avere un'idea più chiara
  di cosa funziona e cosa non funziona nel sistema di machine learning e
  di quale sia la via migliore per migliorarne le prestazioni.
- L'implementazione delle tecnice di diagnosi è lunga, ma il tempo così impiegato
- è ben speso e permette di guadagnare molto più tempo in futuro.
+ L'implementazione delle tecniche di diagnosi è lunga, ma il tempo così
+ impiegato è ben speso e permette di guadagnare molto più tempo in futuro.
 \end_layout
 
 \begin_layout Standard
@@ -548,7 +548,7 @@ azione
 \end_layout
 
 \begin_layout Section
-Prgettazione si un sistema di Machine Learning
+Progettazione di un sistema di Machine Learning
 \end_layout
 
 \begin_layout Standard
@@ -880,7 +880,7 @@ richiamo=\frac{\#VeroPositivo}{\#VeroPositivo+\#FalsoNegativo}=\frac{\#VeroPosit
 
 \begin_layout Standard
 L'andamento di queste due misure è spesso discordante, al crescere dell'una
- clala l'altra come mostrato in Figura 
+ cala l'altra come mostrato in Figura 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Richiamo-vs.-Precisione"
@@ -942,8 +942,8 @@ Richiamo vs.
 \end_layout
 
 \begin_layout Standard
-Di conseguenza è utile avere un valore unio che sintetizzi idue falori e
- ci dia una misura complessiva del comportamento dell'algoritmo.
+Di conseguenza è utile avere un valore unio che sintetizzi i due valori
+ e ci dia una misura complessiva del comportamento dell'algoritmo.
  La media dei due valori non è adeguata in quanto non tiene in considerazione
  il fatto che vorremo che entrambi i valori fossero alti, mentre la media
  darebbe lo stesso punteggio sia ad un algoritmo con precisione di 
@@ -986,7 +986,7 @@ Ponendo
 \begin_inset Formula $\beta=1$
 \end_inset
 
- si ottiene la misura più utilizzata che bilanciq equamente precisione e
+ si ottiene la misura più utilizzata che bilancia equamente precisione e
  richiamo, ovvero la 
 \series bold
 F
@@ -1040,9 +1040,9 @@ fill the gap
 \begin_inset Quotes erd
 \end_inset
 
- conosce le parole attorno al gap è sufficiente per un essere umano per
+ conoscere le parole attorno al gap è sufficiente per un essere umano per
  completare l'esercizio, mentre conoscere solamente la dimensione in metri
- quadrati non è sufficiente anche per il miglior agente immobiliare per
+ quadrati non è sufficiente neanche per il miglior agente immobiliare per
  fare una valutazione del prezzo di una casa.
 \end_layout
 

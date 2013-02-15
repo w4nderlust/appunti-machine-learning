@@ -89,7 +89,7 @@ In molti problemi del mondo reale la classificazione è non lineare e il
  in termini di tempi di esecuzione.
  Per questo motivo verrano ora descritte le 
 \series bold
-Neural Netowrks
+Neural Networks
 \series default
  (reti neurali) che sono un metodo di rappresentazione con una famiglia
  di algoritmi ad essa associati che permettono di realizzare classificatori
@@ -380,7 +380,7 @@ Se la rete neurale ha
 \end_inset
 
 .
- Ogni singolo livell odella rete effettua un passo computazionale equivalente
+ Ogni singolo livello della rete effettua un passo computazionale equivalente
  alla regressione logistica permettendo di calcolare complesse funzioni
  non lineari sui valori di input.
  Inoltre le reti possono avere diverse architetture, ovvero un numero diverso
@@ -1858,19 +1858,19 @@ Backpropagation
 \end_layout
 
 \begin_layout Standard
-Esso consiste, per ciascun esempio di input, nel calcolare la Foreward Propagati
-on, ovvero tutti gli 
+Esso consiste, per ciascun esempio di input, nel calcolare la Forward Propagatio
+n, ovvero tutti gli 
 \begin_inset Formula $a_{j}^{(l)}$
 \end_inset
 
 , calcolare per ciascun livello l'errore dei nodi rispetto all'output atteso
- e accumulare il prodotto di questi valori in una mtrice che coterrà proprio
+ e accumulare il prodotto di questi valori in una mtrice che conterrà proprio
  le derivate parziali.
 \end_layout
 
 \begin_layout Standard
 Più formalmente, prendendo in considerazione un solo esempio, effettuiamo
- la foreward propagation:
+ la forward propagation:
 \end_layout
 
 \begin_layout Standard
@@ -2116,7 +2116,7 @@ Set
 \end_layout
 
 \begin_layout Itemize
-Perform Foreward Propagation to compute 
+Perform Forward Propagation to compute 
 \begin_inset Formula $a^{(2)},a^{(3)},\ldots,a^{(L)}$
 \end_inset
 
@@ -2207,7 +2207,7 @@ Inizializzando i parametri delle matrici
 \end_inset
 
  assicuriamo che i pesi che partono da un nodo di un certo livello vero
- i nodi del livello successivo saranno sempre uguali, perchè saranno uguali
+ i nodi del livello successivo saranno sempre uguali, perché saranno uguali
  le derivate.
  In questo modo la rete non si modificherà in modo da calcolare funzioni
  utili, ma è come se ogni nodo calcolasse la stessa funzione di tutti gli
