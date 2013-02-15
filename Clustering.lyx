@@ -294,7 +294,7 @@ For
 
 \begin_deeper
 \begin_layout Itemize
-\begin_inset Formula $c^{(i)}:=\min_{k}\left\Vert x^{(i)}-\mu_{k}\right\Vert $
+\begin_inset Formula $c^{(i)}:=\min_{k}\left\Vert x^{(i)}-\mu_{k}\right\Vert ^{2}$
 \end_inset
 
 (the index from 
