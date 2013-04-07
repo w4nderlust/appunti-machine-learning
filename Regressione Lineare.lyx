@@ -1004,11 +1004,11 @@ Normal Equations
 \series default
  (equazioni normali).
  Data la matrice dati 
-\begin_inset Formula $X\in\mathbb{R}^{m\cdot(n+1)}$
+\begin_inset Formula $X\in\mathbb{R}^{m\times(n+1)}$
 \end_inset
 
  ed 
-\begin_inset Formula $y\in\mathbb{R}^{n}$
+\begin_inset Formula $y\in\mathbb{R}^{m}$
 \end_inset
 
  il vettore di output, con 
@@ -1019,7 +1019,7 @@ Normal Equations
 \begin_inset Formula $n$
 \end_inset
 
- numero di features, allora:
+ numero di feature, allora:
 \end_layout
 
 \begin_layout Standard
@@ -1132,7 +1132,11 @@ Normal Equations
 \end_layout
 
 \begin_layout Itemize
-- Lento se il numero di features è molto grande
+- Lento se 
+\begin_inset Formula $m$
+\end_inset
+
+, il numero di feature, è molto grande
 \end_layout
 
 \end_body
