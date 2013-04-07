@@ -990,16 +990,36 @@ Equazioni Normali
 \end_layout
 
 \begin_layout Standard
-Per ottenere i parametri 
+Per trovare il minimo della funzione 
+\begin_inset Formula $J$
+\end_inset
+
+ in modo analitico, ovvero per trovare i parametri 
 \begin_inset Formula $\theta$
 \end_inset
 
- esiste un metodo più semplice rispetto all'utilizzo del gradient descent,
- ovvero le 
+, esiste un metodo più semplice del gradient descent: le 
 \series bold
 Normal Equations
 \series default
- (equazioni normali):
+ (equazioni normali).
+ Data la matrice dati 
+\begin_inset Formula $X\in\mathbb{R}^{m\cdot(n+1)}$
+\end_inset
+
+ ed 
+\begin_inset Formula $y\in\mathbb{R}^{n}$
+\end_inset
+
+ il vettore di output, con 
+\begin_inset Formula $m$
+\end_inset
+
+ numero di esempi di training e 
+\begin_inset Formula $n$
+\end_inset
+
+ numero di features, allora:
 \end_layout
 
 \begin_layout Standard
@@ -1010,15 +1030,15 @@ Normal Equations
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-dove 
-\begin_inset Formula $m$
+Dove 
+\begin_inset Formula $X$
 \end_inset
 
- è il numero degli esempi di training e 
+ e 
+\begin_inset Formula $y$
+\end_inset
+
+ sono:
 \end_layout
 
 \begin_layout Standard
@@ -1050,10 +1070,6 @@ y^{(m)}
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
 Comparando in questo caso il gradiente discendente con le equazioni normali
  otteniamo che il primo è migliore in alcuni casi, le seconde in altri.
  Le caratteristiche sono qui riassunte:
@@ -1100,6 +1116,10 @@ Normal Equations
 \end_layout
 
 \begin_layout Itemize
++ Non è necessario effettuare feature scaling
+\end_layout
+
+\begin_layout Itemize
 - Bisogna calcolare 
 \begin_inset Formula $\left(X^{\top}X\right)^{-1}$
 \end_inset
@@ -1112,7 +1132,7 @@ Normal Equations
 \end_layout
 
 \begin_layout Itemize
-- Lento se il numero di esempi è molto grande
+- Lento se il numero di features è molto grande
 \end_layout
 
 \end_body
