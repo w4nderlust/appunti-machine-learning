@@ -123,7 +123,7 @@ A differenza del Batch Gradient Descent, nello Stochastic Gradeint Descent,
 
  rispetto alla somma della derivata della funzione costo rispetto a tutti
  gli esempi, ma solo uno alla volta.
- Ciò permette, anche in presenza di grandi dataset, di effettuare picoli
+ Ciò permette, anche in presenza di grandi dataset, di effettuare piccoli
  aggiornamenti dei parametri molto più veloci che permettono solitamente
  di raggiungere la convergenza molto prima.
 \end_layout
